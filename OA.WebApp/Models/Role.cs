@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace OA.WebApp.Models
+{
+    [Table("st_role")]
+    public class Role : BaseEntity
+    {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { get; internal set; }
+
+        [Display(Name = "角色名")]
+        public string Name { get; set; }
+        
+        //导航属性
+        [Display(Name = "用户")]
+        public virtual ICollection<User> Users { get; set; }
+
+        [Display(Name = "权限")]
+        public virtual ICollection<Privilege> Privileges { get; set; }
+    }
+}
