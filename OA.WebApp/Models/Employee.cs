@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace OA.WebApp.Models
 {
+    [Table("st_employee")]
     public class Employee
     {
         [Key]
@@ -21,8 +23,10 @@ namespace OA.WebApp.Models
         [Display(Name = "年龄")]
         public int Age { get; set; }
 
+        public int UserID { get; set; }
+
         //导航属性
         [Display(Name = "系统用户")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual User User { get; set; }
     }
 }

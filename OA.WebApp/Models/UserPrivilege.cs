@@ -9,7 +9,7 @@ namespace OA.WebApp.Models
     // 将RolePrivilege和Privilege的记录在save之后，整合在这张表中。
     // 这是类存在的目的是为了加快用户资源认证的需求。
     // 当用户访问某个Action的时候，查询这个表确认权限（返回大于1条的记录，即有权限访问）。
-    [Table("st_role")]
+    [Table("st_user_privilege")]
     public class UserPrivilege : BaseEntity
     {
         [Key, Column(Order = 0)]

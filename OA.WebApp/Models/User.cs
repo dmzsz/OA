@@ -18,17 +18,18 @@ namespace OA.WebApp.Models
         public string Name { get; set; }
 
         //导航属性
-        [Display(Name = "角色")]
-        public virtual ICollection<Role> Roles { get; set; }
+        //[Display(Name = "角色")]
+        public virtual ICollection<UserRole> UserRoles { get; set; }
 
-        [Display(Name = "公司")]
-        public virtual ICollection<Company> Company { get; set; }
+        public virtual ICollection<UserCompany> UserCompanies { get; set; }
 
-        [Display(Name = "部门")]
-        public virtual ICollection<Department> Department { get; set; }
+        public virtual ICollection<UserDepartment> UserDepartments { get; set; }
 
         [Display(Name = "权限")]
-        public virtual ICollection<UserPrivilege> UserPrivilege { get; set; }
+        public virtual ICollection<UserPrivilege> UserPrivileges { get; set; }
+
+        [Display(Name = "职工")]
+        public virtual Employee Employee { get; set; }
 
     }
 }

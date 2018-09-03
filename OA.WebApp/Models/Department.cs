@@ -11,16 +11,16 @@ namespace OA.WebApp.Models
         public int ID { get; internal set; }
         public string Name { get; set; }
 
-        public int ParentID { get; set; }
+        public int ParentDepartmentID { get; set; }
 
         //导航属性
-        [Display(Name = "用户")]
-        public virtual ICollection<User> Users { get; set; }
+        //[Display(Name = "父部门")]
+        //public virtual Department ParentDepartment { get; set; }
 
-        [Display(Name = "父部门")]
-        public virtual Department ParentDepartment { get; set; }
+        //[Display(Name = "子部门")]
+        ////[InverseProperty("ParentDepartment")]
+        //public virtual ICollection<Department> ChildrenDepartments { get; set; }
 
-        [Display(Name = "子部门")]
-        public virtual ICollection<Department> ChildrenDepartments { get; set; }
+        public virtual ICollection<UserDepartment> UserDepartments { get; set; }
     }
 }

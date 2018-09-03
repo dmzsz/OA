@@ -8,14 +8,16 @@ namespace OA.WebApp.Models
 {
     public class BaseEntity
     {
-        public string AddedBy { get; internal set; }
+        public string CreatedBy { get; internal set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? AddedAt { get; internal set; }
+        public DateTime? CreatedAt { get; internal set; }
 
         public string ModifiedBy { get; internal set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ModifiedAt { get; internal set; }
 
         //是否已删除

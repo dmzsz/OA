@@ -9,7 +9,7 @@ namespace OA.WebApp.Models
     // 中间有一个字段用于标识，
     // 该角色对于某个资源权限是公司级别还是部门级别（个人，超级管理员（all））
     // RoleID、PrivilegeID、Scope三者为联合主键
-    [Table("st_role")]
+    [Table("st_role_privilege")]
     public class RolePrivilege : BaseEntity
     {
         [Key, Column(Order = 0)]

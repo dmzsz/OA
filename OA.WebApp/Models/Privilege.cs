@@ -6,6 +6,7 @@ using OA.Core.Tools;
 namespace OA.WebApp.Models
 {
     // 将所有的资源和控制器组合，便于将角色和使用范围进行绑定
+    [Table("st_privilege")]
     public class Privilege : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -47,9 +48,11 @@ namespace OA.WebApp.Models
             }
         }
 
+        public ICollection<RolePrivilege> RolePrivileges { get; internal set; }
+
         //导航属性
-        [Display(Name = "角色")]
-        public virtual ICollection<Role> Roles { get; set; }
+        //[Display(Name = "角色")]
+        //public virtual ICollection<Role> Roles { get; set; }
 
     }
 }

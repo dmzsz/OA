@@ -13,12 +13,16 @@ namespace OA.WebApp.Models
 
         [Display(Name = "角色名")]
         public string Name { get; set; }
-        
-        //导航属性
-        [Display(Name = "用户")]
-        public virtual ICollection<User> Users { get; set; }
 
-        [Display(Name = "权限")]
-        public virtual ICollection<Privilege> Privileges { get; set; }
+        //导航属性
+        public ICollection<UserRole> UserRoles { get; set; }
+
+        public ICollection<RolePrivilege> RolePrivileges { get; set; }
+
+        //[Display(Name = "用户")]
+        //public virtual ICollection<UserCompangy> Users { get; set; }
+
+        //[Display(Name = "权限")]
+        //public virtual ICollection<Privilege> Privileges { get; set; }
     }
 }

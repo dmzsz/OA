@@ -16,10 +16,7 @@ namespace OA.WebApp.Models
         [Key, Column(Order = 1)]
         public int RoleID { get; set; }
 
-        public int UserCompanyID { get; set; }
-
-        public int UserDepartmentID { get; set; }
-
+        
         //导航属性
         public virtual User User { get; set; }
 
