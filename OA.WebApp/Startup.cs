@@ -12,6 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using OA.WebApp.Models;
 using OA.WebApp.Data;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using OA.WebApp.Authorization;
+using OA.WebApp.Controllers;
+using OA.WebApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace OA.WebApp
 {
@@ -34,9 +40,27 @@ namespace OA.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<IUserService, UserService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddAutoMapper();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Login");
+                    options.LogoutPath = new PathString("/Logout");
+                    //options.AccessDeniedPath = new PathString("/Error/Forbidden");
+                    //options.Events = new CookieAuthenticationEvents
+                    //{
+                    //    OnValidatePrincipal = context =>
+                    //    {
+                    //       //Custom validation goes here 
+                    //    }
+                    //};
+                });
+            
             services.AddDbContext<OAContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OAContext")));
         }
@@ -56,13 +80,19 @@ namespace OA.WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                    name: "Login",
+                    template: "Login",
+                    defaults: new { controller = "Users", action = "Login" });
             });
         }
     }

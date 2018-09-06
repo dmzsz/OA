@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OA.WebApp.Models
@@ -22,6 +23,8 @@ namespace OA.WebApp.Models
 
         [Display(Name = "年龄")]
         public int Age { get; set; }
+
+        public string Sex { get; internal set; }
 
         public int UserID { get; set; }
 
