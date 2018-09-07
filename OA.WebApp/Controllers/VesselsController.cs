@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
+    [Authorize]
     public class VesselsController : Controller
     {
         private readonly OAContext _context;
@@ -20,9 +22,14 @@ namespace OA.WebApp.Controllers
         }
 
         // GET: Vessels
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vessels.ToListAsync());
+            //_context.Vessels.ToListAsync()
+            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
+                                            select v;
+
+            return View(await _context.Vessels.OrderByDescending(s => s.ETD).ToListAsync());
         }
 
         // GET: Vessels/Details/5
@@ -41,6 +48,15 @@ namespace OA.WebApp.Controllers
             }
 
             return View(vessel);
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult> Show()
+        {
+            //_context.Vessels.ToListAsync()
+            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
+                                           select v;
+
+            return View(await _context.Vessels.OrderBy(v => v.ETD).Where(v => v.ETD == null || v.ETD > DateTime.Now).ToListAsync());
         }
 
         // GET: Vessels/Create

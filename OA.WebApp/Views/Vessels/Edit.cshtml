@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-<h4>Vessel</h4>
+<h4>集港信息录入</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -36,17 +34,32 @@
             </div>
             <div class="form-group">
                 <label asp-for="OpDate" class="control-label"></label>
-                <input asp-for="OpDate" class="form-control" />
+                <div class="input-group date" id="OpDate-datetimepicker">
+                    <input class="form-control" name="OpDate" value="@Model.OpDate">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
                 <span asp-validation-for="OpDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CloseDate" class="control-label"></label>
-                <input asp-for="CloseDate" class="form-control" />
+                <div class="input-group date" id="CloseDate-datetimepicker">
+                    <input class="form-control" name="CloseDate" value="@Model.CloseDate">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
                 <span asp-validation-for="CloseDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ETD" class="control-label"></label>
-                <input asp-for="ETD" class="form-control" />
+                <div class="input-group date" id="ETD-datetimepicker">
+                    <input class="form-control" name="ETD" value="@Model.ETD">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
                 <span asp-validation-for="ETD" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -56,17 +69,11 @@
                     </label>
                 </div>
             </div>
+           
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <a asp-action="Index" class="btn btn-default">返回</a>
+                <input type="submit" value="保存" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
