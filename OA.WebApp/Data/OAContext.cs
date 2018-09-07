@@ -28,6 +28,7 @@ namespace OA.WebApp.Data
 
         public DbSet<OA.WebApp.Models.UserPrivilege> UserPrivileges { get; set; }
 
+        public DbSet<OA.WebApp.Models.Vessel> Vessels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<UserRole>()
@@ -95,7 +96,6 @@ namespace OA.WebApp.Data
                 .HasOne(rp => rp.Privilege)
                 .WithMany(p => p.RolePrivileges)
                 .HasForeignKey(rp => rp.PrivilegeID);
-
         }
     }
 }
