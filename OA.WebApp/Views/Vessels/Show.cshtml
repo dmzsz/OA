@@ -5,7 +5,7 @@
     Layout = "_Show";
 }
 
-<table class="table">
+<table class="table vessels-table">
     <thead>
         <tr>
             <th>
@@ -32,47 +32,74 @@
             <th>
                 @Html.DisplayNameFor(model => model.Trade)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
+        @{var index = 0;}
         @foreach (var item in Model)
         {
-        <tr @if (item.ETD < DateTime.Now) { @Html.DisplayName("style=color:red")   }>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID" class="edit_link">@Html.DisplayFor(modelItem => item.Name)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocalName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Voy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Port)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CloseDate)
-            </td>
-            <td>
+            index += 1;
+            <tr @if (item.ETD < DateTime.Now) { @Html.DisplayName("style=color:red") }
+                @if (index % 2 == 0) { @Html.DisplayName("class=even")} else { @Html.DisplayName("class=odd") }
+                }>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID" class="edit_link">@Html.DisplayFor(modelItem => item.Name)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LocalName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Voy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Port)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CloseDate)
+                </td>
+                <td>
 
-                @(item.ETD == null ? "暂无" : item.ETD.ToString())
-            </td>
-            <td>
-                @(item.Trade ? "内贸" : "外贸")
-            </td>
-            
-        </tr>
+                    @(item.ETD == null ? "暂无" : item.ETD.ToString())
+                </td>
+                <td>
+                    @(item.Trade ? "内贸" : "外贸")
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>
 
 <style>
-    .edit_link:hover {
-        text-decoration: underline;
-        color: darkcyan;
-    }
+   
 </style>
+<script>
+    var doscroll2 = function () {
+        var $parent = $('.table > tbody');
+        var $first = $parent.find('tr:first');
+        var height = $first.find('a').css('line-height');
+
+        $first.children('td').css("padding-top", 0);
+        $first.children('td').css("padding-bottom", 0);
+
+        $first.children('td')
+            .not(':has(div.td-slider)')
+            .wrapInner('<div class="td-slider" />');
+
+        $first.children('td')
+            .children(".td-slider")
+            .slideUp(
+                1000,
+                function () {
+                    $(this).closest('tr').appendTo($parent);
+                    $(this).show();
+                });
+    };
+
+    setInterval(function () {
+        doscroll2();
+    }, 6000);
+</script>
