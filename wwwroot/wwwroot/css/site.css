@@ -3,7 +3,33 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .show_wrapper {
     right: 0;
-    margin: 5% auto 0;
-    max-width: 980px;
+    margin: 0 auto;
+    padding-top: 30px;
+    max-width: 1300px;
     position: relative;
+}
+
+.show_wrapper .vessels-table {
+    font-size: 20px;
+}
+.show_wrapper .vessels-table tr.odd {
+    background: rgba(51,79,109,.3);
+}
+
+.show_wrapper .vessels-table.even {
+    background: rgba(51,79,109,.1);
+}
+.show_wrapper .vessels-table thead th,
+.show_wrapper .vessels-table tbody td {
+    text-align: center;
+}
+
+.show_wrapper .edit_link:hover {
+    text-decoration: underline;
+    color: darkcyan;
+}
+
+.show_wrapper .vessels-table .td-slider {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
