@@ -33,7 +33,7 @@
                 @Html.DisplayNameFor(model => model.ETD)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Trade)
+                @Html.DisplayName("内外")
             </th>
         </tr>
     </thead>
@@ -80,7 +80,7 @@
                     }
                 </td>
                 <td>
-                    @(item.Trade ? "内贸" : "外贸")
+                    @(item.Trade ? "内" : "外")
                 </td>
 
             </tr>
@@ -101,7 +101,8 @@
     }
 </style>
 <script>
-    var doscroll2 = function () {
+    //len: 多余len行开始滚动
+    var doscroll2 = function (len) {
         var $parent = $('.table > tbody');
         var $first = $parent.find('tr:first');
         var height = $first.find('a').css('line-height');
@@ -113,20 +114,23 @@
             .not(':has(div.td-slider)')
             .wrapInner('<div class="td-slider" />');
 
-        $first.children('td')
-            .children(".td-slider")
-            .slideUp(
-                1000,
-                function () {
-                    $(this).closest('tr').appendTo($parent);
-                    $(this).show();
-                });
+        if ($(".vessels-table tbody tr").length > len) {
+            $first.children('td')
+                .children(".td-slider")
+                .slideUp(
+                    1000,
+                    function () {
+                        $(this).closest('tr').appendTo($parent);
+                        $(this).show();
+                    });
+        };
+        
     };
-    if ($(".vessels-table tbody tr").length > 6) {
-        setInterval(function () {
-            doscroll2();
-        }, 6000);
-    }
+
+    setInterval(function () {
+        doscroll2(4);
+    }, 6000);
+
     setInterval(function () {
         location.reload();
     }, 1800000);
