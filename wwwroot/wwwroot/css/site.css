@@ -18,8 +18,20 @@ for details on configuring this project to bundle and minify static web assets. 
     font-size: 25px;
 }
 
+.show_wrapper > .vessels-table > thead > tr > th {
+       padding: 10px  0 4px;
+}
+
 .show_wrapper .vessels-table tbody tr td:first-child {
     font-size: 20px;
+}
+
+.show_wrapper .vessels-table thead tr th:nth-child(4) {
+    width: 150px;
+}
+
+.show_wrapper .vessels-table thead tr th:nth-child(5) {
+    width: 150px;
 }
 
 .show_wrapper .vessels-table thead th:nth-child(3) {
@@ -53,6 +65,9 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .show_wrapper .vessels-table .td-slider {
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top:5px;
+    margin-bottom: 5px;
+}
+.show_wrapper > .vessels-table > tbody > tr > td{
+       padding: 5px;
 }
