@@ -12,13 +12,15 @@ for details on configuring this project to bundle and minify static web assets. 
 .show_wrapper .vessels-table {
     font-size: 20px;
 }
+
 .show_wrapper .vessels-table tr.odd {
-    background: rgba(51,79,109,.3);
+    background: rgba(27, 27, 27, 0.5);
 }
 
-.show_wrapper .vessels-table.even {
-    background: rgba(51,79,109,.1);
+.show_wrapper .vessels-table tr.even {
+    background: rgba(132, 132, 132, 0.5);
 }
+
 .show_wrapper .vessels-table thead th,
 .show_wrapper .vessels-table tbody td {
     text-align: center;

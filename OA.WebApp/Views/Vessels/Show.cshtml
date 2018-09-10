@@ -12,9 +12,6 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LocalName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Voy)
             </th>
             <th>
@@ -43,9 +40,9 @@
                 @if (index % 2 == 0) { @Html.DisplayName("class=even")} else { @Html.DisplayName("class=odd") }
                 }>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ID" class="edit_link">@Html.DisplayFor(modelItem => item.Name)</a>
-                </td>
-                <td>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </div>                  
                     @Html.DisplayFor(modelItem => item.LocalName)
                 </td>
                 <td>
@@ -61,8 +58,15 @@
                     @Html.DisplayFor(modelItem => item.CloseDate)
                 </td>
                 <td>
-
-                    @(item.ETD == null ? "暂无" : item.ETD.ToString())
+                    @if (item.ETD == null)
+                    {
+                        @:暂无
+                        @*@Html.DisplayName("后告")*@
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ETD)
+                    }
                 </td>
                 <td>
                     @(item.Trade ? "内贸" : "外贸")
@@ -74,7 +78,13 @@
 </table>
 
 <style>
-   
+    .vessels-table thead {
+        background-color: cornflowerblue;
+    }
+
+    .vessels-table {
+        color: whitesmoke;
+    }
 </style>
 <script>
     var doscroll2 = function () {
@@ -99,7 +109,7 @@
                 });
     };
 
-    setInterval(function () {
-        doscroll2();
-    }, 6000);
+    //setInterval(function () {
+    //    doscroll2();
+    //}, 6000);
 </script>

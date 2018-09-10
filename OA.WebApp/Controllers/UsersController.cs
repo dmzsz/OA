@@ -187,24 +187,24 @@ namespace OA.WebApp.Controllers
         // 关闭对外开放
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[AllowAnonymous]
-        //public async Task<IActionResult> Sigup([Bind("UserName,Password")] UserDto userDto)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            await _userService.Create(userDto, userDto.Password);
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch (AppException ex)
-        //        {
-        //            // return error message if there was an exception
-        //            return BadRequest(ex.Message);
-        //        }
-        //    }
-        //    return View(userDto);
-        //}
+        [AllowAnonymous]
+        public async Task<IActionResult> Sigup([Bind("UserName,Password")] UserDto userDto)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _userService.Create(userDto, userDto.Password);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (AppException ex)
+                {
+                    // return error message if there was an exception
+                    return BadRequest(ex.Message);
+                }
+            }
+            return View(userDto);
+        }
 
         // GET: Users/Logout
         // POST: Users/Logout
