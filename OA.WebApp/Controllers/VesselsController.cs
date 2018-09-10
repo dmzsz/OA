@@ -56,7 +56,7 @@ namespace OA.WebApp.Controllers
             IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
                                            select v;
 
-            return View(await _context.Vessels.OrderBy(v => v.ETD).Where(v => v.ETD == null || v.ETD > DateTime.Now).ToListAsync());
+            return View(await _context.Vessels.OrderBy(v => v.ETD).Where(v => v.ETD == null || v.ETD >= DateTime.Now.Date).ToListAsync());
         }
 
         // GET: Vessels/Create

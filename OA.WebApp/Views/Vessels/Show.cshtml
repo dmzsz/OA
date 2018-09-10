@@ -5,6 +5,12 @@
     Layout = "_Show";
 }
 
+<div style="background-color: black; width:100%; text-align:right;font-size:20px;font-weight:bold;height:30px;line-height:30px">
+    <span style="color: lawngreen;">已开港&nbsp;&nbsp;&nbsp;</span>
+    <span style="color: yellow;">已截关&nbsp;&nbsp;&nbsp;</span>
+    <span style="color: red;">预计今天开船&nbsp;&nbsp;</span>
+</div>
+
 <table class="table vessels-table">
     <thead>
         <tr>
@@ -38,6 +44,10 @@
             index += 1;
             <tr @if (item.ETD < DateTime.Now) { @Html.DisplayName("style=color:red") }
                 @if (index % 2 == 0) { @Html.DisplayName("class=even")} else { @Html.DisplayName("class=odd") }
+                @if (item.OpDate <= DateTime.Now && item.CloseDate > DateTime.Now && item.ETD != DateTime.Now.Date) { @Html.DisplayName("style=color:lawngreen") }
+                else if (item.CloseDate <= DateTime.Now) { @Html.DisplayName("style=color:yellow") }
+                else if (item.ETD == DateTime.Now.Date) { @Html.DisplayName("style=color:red") }
+
                 }>
                 <td>
                     <div>
@@ -66,6 +76,7 @@
                     else
                     {
                         @Html.DisplayFor(modelItem => item.ETD)
+
                     }
                 </td>
                 <td>
@@ -78,6 +89,9 @@
 </table>
 
 <style>
+    body div.show_wrapper {
+        padding-top: 5px;
+    }
     .vessels-table thead {
         background-color: cornflowerblue;
     }
@@ -108,8 +122,12 @@
                     $(this).show();
                 });
     };
-
-    //setInterval(function () {
-    //    doscroll2();
-    //}, 6000);
+    if ($(".vessels-table tbody tr").length > 6) {
+        setInterval(function () {
+            doscroll2();
+        }, 6000);
+    }
+    setInterval(function () {
+        location.reload();
+    }, 1800000);
 </script>

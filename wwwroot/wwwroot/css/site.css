@@ -7,18 +7,39 @@ for details on configuring this project to bundle and minify static web assets. 
     padding-top: 30px;
     max-width: 1300px;
     position: relative;
+    
 }
 
 .show_wrapper .vessels-table {
     font-size: 20px;
 }
 
+.show_wrapper .vessels-table tbody{
+    font-size: 25px;
+}
+
+.show_wrapper .vessels-table tbody tr td:first-child {
+    font-size: 20px;
+}
+
+.show_wrapper .vessels-table thead th:nth-child(3) {
+    width: 6em;
+}
+
+.show_wrapper .vessels-table thead th:nth-child(7) {
+    width: 4em;
+}
+
+.show_wrapper .vessels-table tbody tr.opdate {
+    color: green;
+}
+
 .show_wrapper .vessels-table tr.odd {
-    background: rgba(27, 27, 27, 0.5);
+    background: rgba(27, 27, 27, 1);
 }
 
 .show_wrapper .vessels-table tr.even {
-    background: rgba(132, 132, 132, 0.5);
+    background: rgba(27, 27, 27, 1);
 }
 
 .show_wrapper .vessels-table thead th,
