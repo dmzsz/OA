@@ -100,38 +100,18 @@
         color: whitesmoke;
     }
 </style>
+
 <script>
-    //len: 多余len行开始滚动
-    var doscroll2 = function (len) {
-        var $parent = $('.table > tbody');
-        var $first = $parent.find('tr:first');
-        var height = $first.find('a').css('line-height');
-
-        $first.children('td').css("padding-top", 0);
-        $first.children('td').css("padding-bottom", 0);
-
-        $first.children('td')
-            .not(':has(div.td-slider)')
-            .wrapInner('<div class="td-slider" />');
-
-        if ($(".vessels-table tbody tr").length > len) {
-            $first.children('td')
-                .children(".td-slider")
-                .slideUp(
-                    1000,
-                    function () {
-                        $(this).closest('tr').appendTo($parent);
-                        $(this).show();
-                    });
-        };
-        
-    };
+    setInterval(function () {
+        setColor();
+    }, 3000);
 
     setInterval(function () {
-        doscroll2(4);
+        doscroll2(1);
     }, 4000);
 
     setInterval(function () {
         location.reload();
     }, 600000);
+    
 </script>
