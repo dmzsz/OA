@@ -259,3 +259,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+
+OA.WebApp/appsettings.Production.json
+wwwroot/appsettings.Production.json
