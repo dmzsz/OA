@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,30 +10,26 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    [Authorize]
-    public class VesselsController : Controller
+    public class RolesController : Controller
     {
         private readonly OAContext _context;
 
-        public VesselsController(OAContext context)
+        public RolesController(OAContext context)
         {
             _context = context;
         }
 
-        // GET: Vessels
-        // GET: Vessels/Index
+        // GET: Roles
+        // GET: Roles/Index
         [HttpGet("[controller]")]
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Index()
         {
-            //_context.Vessels.ToListAsync()
-            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
-                                            select v;
-
-            return View(await _context.Vessels.OrderByDescending(s => s.ETD).ToListAsync());
+            return View(await _context.Roles.ToListAsync());
         }
-
-        // GET: Vessels/5/Details
+        
+        // GET: Roles/5/
+        // GET: Roles/5/Details
         [HttpGet("[controller]/{id:int}")]
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Details(int? id)
@@ -44,50 +39,38 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels
+            var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (vessel == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(vessel);
+            return View(role);
         }
 
-        // Get: Vessels/Show
-        [HttpGet("[controller]/[action]")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Show()
-        {
-            //_context.Vessels.ToListAsync()
-            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
-                                           select v;
-
-            return View(await _context.Vessels.OrderBy(v => v.ETD).Where(v => v.ETD == null || v.ETD >= DateTime.Now.Date).ToListAsync());
-        }
-
-        // GET: Vessels/Create
-        [HttpGet("[controller]/[action]")]
+        // GET: Roles/Create
+        [HttpGet("[action]")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Vessels/Create
+        // POST: Roles/Create
         [HttpPost("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,LocalName,Voy,Port,OpDate,CloseDate,ETD,Trade")] Vessel vessel)
+        public async Task<IActionResult> Create([Bind("ID,Name,Description")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vessel);
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vessel);
+            return View(role);
         }
 
-        // GET: Vessels/5/Edit
+        // GET: Roles/5/Edit
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,20 +79,20 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels.FindAsync(id);
-            if (vessel == null)
+            var role = await _context.Roles.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            return View(vessel);
+            return View(role);
         }
 
-        // POST: Vessels/Edit/5
+        // POST: Roles/5/Edit
         [HttpPost("[controller]/{id:int}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LocalName,Voy,Port,OpDate,CloseDate,ETD,Trade")] Vessel vessel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description")] Role role)
         {
-            if (id != vessel.ID)
+            if (id != role.ID)
             {
                 return NotFound();
             }
@@ -118,12 +101,12 @@ namespace OA.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vessel);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VesselExists(vessel.ID))
+                    if (!RoleExists(role.ID))
                     {
                         return NotFound();
                     }
@@ -134,10 +117,10 @@ namespace OA.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vessel);
+            return View(role);
         }
 
-        // GET: Vessels/5/Delete
+        // GET: Roles/5/Delete
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -146,30 +129,40 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels
+            var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (vessel == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(vessel);
+            return View(role);
         }
 
-        // POST: Vessels/5/Delete
+        // POST: Roles/Delete/5
         [HttpPost("[controller]/{id:int}/Delete"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vessel = await _context.Vessels.FindAsync(id);
-            _context.Vessels.Remove(vessel);
+            var role = await _context.Roles.FindAsync(id);
+            _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VesselExists(int id)
+        // GET: Roles/5/Privileges
+        [HttpGet("[controller]/[action]")]
+        public async Task<IActionResult> Privileges(int id)
         {
-            return _context.Vessels.Any(e => e.ID == id);
+            var role = await _context.Roles.FindAsync(id);
+            _context.Roles.Remove(role);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool RoleExists(int id)
+        {
+            return _context.Roles.Any(e => e.ID == id);
         }
     }
 }

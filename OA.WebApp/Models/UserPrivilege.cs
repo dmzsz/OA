@@ -15,13 +15,6 @@ namespace OA.WebApp.Models
         [Key, Column(Order = 0)]
         public int UserID { get; set; }
 
-        [Display(Name = "模型名")]
-        public string ModelName { get; set; }
-
-        // 数据库字段名字 或者叫 modal属性名
-        [Display(Name = "属性名")]
-        public string PropertyName { get; set; }
-
         [Display(Name = "控制器名")]
         public string ControllerName { get; set; }
 
@@ -30,6 +23,8 @@ namespace OA.WebApp.Models
 
         // 开启前端的scope下拉选项
         public string Scope { get; set; }
+
+        public string UniquePriv { get; set; }
 
         //导航属性
         public virtual User User { get; set; }

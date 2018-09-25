@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,30 +10,25 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    [Authorize]
-    public class VesselsController : Controller
+    public class PrivilegesController : Controller
     {
         private readonly OAContext _context;
 
-        public VesselsController(OAContext context)
+        public PrivilegesController(OAContext context)
         {
             _context = context;
         }
 
-        // GET: Vessels
-        // GET: Vessels/Index
+        // GET: Privileges
+        // GET: Privileges/Index
         [HttpGet("[controller]")]
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Index()
         {
-            //_context.Vessels.ToListAsync()
-            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
-                                            select v;
-
-            return View(await _context.Vessels.OrderByDescending(s => s.ETD).ToListAsync());
+            return View(await _context.Privileges.ToListAsync());
         }
 
-        // GET: Vessels/5/Details
+        // GET: Privileges/Details/5
         [HttpGet("[controller]/{id:int}")]
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Details(int? id)
@@ -44,50 +38,60 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels
+            var privilege = await _context.Privileges
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (vessel == null)
+            if (privilege == null)
             {
                 return NotFound();
             }
 
-            return View(vessel);
+            return View(privilege);
         }
 
-        // Get: Vessels/Show
-        [HttpGet("[controller]/[action]")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Show()
+        // 分配新的权限给角色
+        [HttpGet("Roles/{id:int}/[controller]/[action]")]
+        public async Task<IActionResult> New(int? id)
         {
-            //_context.Vessels.ToListAsync()
-            IQueryable<Vessel> vesselsIQ = from v in _context.Vessels
-                                           select v;
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Role role;
+            role = await _context.Roles
+                        .Include(r => r.RolePrivileges)
+                            .ThenInclude(rp => rp.Privilege)
+                        .FirstOrDefaultAsync(r => r.ID == id);
 
-            return View(await _context.Vessels.OrderBy(v => v.ETD).Where(v => v.ETD == null || v.ETD >= DateTime.Now.Date).ToListAsync());
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return View(role);
         }
 
-        // GET: Vessels/Create
+        // GET: Privileges/Create
         [HttpGet("[controller]/[action]")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Vessels/Create
+        // POST: Privileges/Create
         [HttpPost("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,LocalName,Voy,Port,OpDate,CloseDate,ETD,Trade")] Vessel vessel)
+        public async Task<IActionResult> Create([Bind("ID,Name,Description,ControllerName,ActionName,ScopeEnable,Deleted")] Privilege privilege)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vessel);
+                _context.Add(privilege);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(vessel);
+            return View(privilege);
         }
 
-        // GET: Vessels/5/Edit
+        // GET: Privileges/5/Edit
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -96,20 +100,19 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels.FindAsync(id);
-            if (vessel == null)
+            var privilege = await _context.Privileges.FindAsync(id);
+            if (privilege == null)
             {
                 return NotFound();
             }
-            return View(vessel);
+            return View(privilege);
         }
 
-        // POST: Vessels/Edit/5
         [HttpPost("[controller]/{id:int}/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,LocalName,Voy,Port,OpDate,CloseDate,ETD,Trade")] Vessel vessel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,ControllerName,ActionName,ScopeEnable,Deleted")] Privilege privilege)
         {
-            if (id != vessel.ID)
+            if (id != privilege.ID)
             {
                 return NotFound();
             }
@@ -118,12 +121,12 @@ namespace OA.WebApp.Controllers
             {
                 try
                 {
-                    _context.Update(vessel);
+                    _context.Update(privilege);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VesselExists(vessel.ID))
+                    if (!PrivilegeExists(privilege.ID))
                     {
                         return NotFound();
                     }
@@ -134,10 +137,10 @@ namespace OA.WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(vessel);
+            return View(privilege);
         }
 
-        // GET: Vessels/5/Delete
+        // GET: Privileges/5/Delete
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -146,30 +149,30 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var vessel = await _context.Vessels
+            var privilege = await _context.Privileges
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (vessel == null)
+            if (privilege == null)
             {
                 return NotFound();
             }
 
-            return View(vessel);
+            return View(privilege);
         }
 
-        // POST: Vessels/5/Delete
+        // POST: Privileges/5/Delete
         [HttpPost("[controller]/{id:int}/Delete"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vessel = await _context.Vessels.FindAsync(id);
-            _context.Vessels.Remove(vessel);
+            var privilege = await _context.Privileges.FindAsync(id);
+            _context.Privileges.Remove(privilege);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VesselExists(int id)
+        private bool PrivilegeExists(int id)
         {
-            return _context.Vessels.Any(e => e.ID == id);
+            return _context.Privileges.Any(e => e.ID == id);
         }
     }
 }

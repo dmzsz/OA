@@ -9,13 +9,17 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    
+    [Authorize]
     public class HomeController : Controller
     {
+        [HttpGet("")]
+        [HttpGet("[controller]")]
+        [HttpGet("[controller]/[action]")]
         public IActionResult Index()
         {
             return View();
         }
+
 
         public IActionResult About()
         {

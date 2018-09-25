@@ -9,10 +9,13 @@ namespace OA.WebApp.Models
     public class Role : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; internal set; }
+        public int ID { get; set; }
 
         [Display(Name = "角色名")]
         public string Name { get; set; }
+
+        [Display(Name = "描述")]
+        public string Description { get; set; }
 
         //导航属性
         public ICollection<UserRole> UserRoles { get; set; }
@@ -20,7 +23,7 @@ namespace OA.WebApp.Models
         public ICollection<RolePrivilege> RolePrivileges { get; set; }
 
         //[Display(Name = "用户")]
-        //public virtual ICollection<UserCompangy> Users { get; set; }
+        //public virtual ICollection<UserRole> Users { get; set; }
 
         //[Display(Name = "权限")]
         //public virtual ICollection<Privilege> Privileges { get; set; }

@@ -32,7 +32,7 @@ namespace OA.WebApp.Models
         public DateTime CloseDate { get; set; }
 
         [Display(Name = "船期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true, NullDisplayText = "暂无")]
         public DateTime? ETD { get; set; }
 
         [Display(Name = "内外贸")]

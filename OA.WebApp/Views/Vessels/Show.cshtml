@@ -68,16 +68,7 @@
                     @Html.DisplayFor(modelItem => item.CloseDate)
                 </td>
                 <td>
-                    @if (item.ETD == null)
-                    {
-                        @:暂无
-                        @*@Html.DisplayName("后告")*@
-                    }
-                    else
-                    {
-                        @Html.DisplayFor(modelItem => item.ETD)
-
-                    }
+                   @Html.DisplayFor(modelItem => item.ETD)
                 </td>
                 <td>
                     @(item.Trade ? "内" : "外")

@@ -21,6 +21,9 @@ namespace OA.WebApp.Models
         [Column(Order = 2)]
         public int PrivilegeID { get; set; }
 
+        // 权限唯一标识，md5
+        public string UniquePriv { get; set; }
+
         // 公司（C） 部门(D)  个人（U） 所有（A） 默认值 （Null）空
         // 这里的公司 部门 个人 使用一个范围， 不特指某个公司、部门、个人
         // 某一个权限设置为公司，就某某资源的index页面来讲，

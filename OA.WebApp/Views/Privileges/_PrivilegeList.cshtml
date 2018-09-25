@@ -1,0 +1,9 @@
+﻿@model OA.WebApp.Models.Role
+
+<h2>Index</h2>
+@Html.Label($"Role {Model.Name}");
+@foreach (var privilege in Model.RolePrivileges.Select(rp => rp.Privilege))
+{
+    @Html.Label($"  privilege {privilege.Name}")
+
+}

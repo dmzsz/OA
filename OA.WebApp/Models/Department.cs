@@ -8,7 +8,7 @@ namespace OA.WebApp.Models
     public class Department : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; internal set; }
+        public int ID { get; set; }
         public string Name { get; set; }
 
         public int ParentDepartmentID { get; set; }

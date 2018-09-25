@@ -1,0 +1,79 @@
+﻿@model OA.WebApp.Models.Privilege
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Privilege</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ControllerName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ControllerName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ActionName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActionName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ScopeEnable)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScopeEnable)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedAt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Deleted)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a href="/Privileges">Back to List</a>
+</div>

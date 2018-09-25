@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using OA.WebApp.Models;
 
 namespace OA.WebApp.Data
@@ -12,6 +13,12 @@ namespace OA.WebApp.Data
         public OAContext (DbContextOptions options)
             : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .ConfigureWarnings(warnings => warnings.Throw(CoreEventId.IncludeIgnoredWarning));
         }
 
         public DbSet<OA.WebApp.Models.Employee> Employees { get; set; }

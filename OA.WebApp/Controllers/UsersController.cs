@@ -30,7 +30,9 @@ namespace OA.WebApp.Controllers
         }
 
         // GET: Users
-        [HttpGet]
+        // GET: Users/Index
+        [HttpGet("[controller]")]
+        [HttpGet("[controller]/[action]")]
         public IActionResult Index()
         {
             return View(_userService.GetAll());
@@ -38,15 +40,15 @@ namespace OA.WebApp.Controllers
 
         // GET: Users/New
         // 新建用户页面
-        [HttpGet]
-         public IActionResult New()
+        [HttpGet("[controller]/[action]")]
+        public IActionResult New()
         {
             return View();
         }
 
         // POST: Users/Create
         // 创建新用户
-        [HttpPost]
+        [HttpPost("[controller]/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserName,Password")] UserDto userDto)
         {
@@ -58,9 +60,10 @@ namespace OA.WebApp.Controllers
 
         }
 
-        // GET: Users/Details/5
+        // GET: Users/5/Details
         // 用户信息展示
-        [HttpGet]
+        [HttpGet("[controller]/{id:int}")]
+        [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Details(int id)
         {
             var user = await _userService.GetByID(id);
@@ -73,9 +76,7 @@ namespace OA.WebApp.Controllers
         }
 
         // POST: Users/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("[controller]/{id:int}/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,UserName,Password")] UserDto userDto)
         {
@@ -94,7 +95,7 @@ namespace OA.WebApp.Controllers
 
         // GET: Users/Edit/5
         // 编辑用户信息
-        [HttpGet]
+        [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
             var userDto = await _userService.GetByID(id);
@@ -108,7 +109,7 @@ namespace OA.WebApp.Controllers
 
         // GET: Users/Delete/5
         // 删除用户页面
-        [HttpGet]
+        [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,7 +129,7 @@ namespace OA.WebApp.Controllers
 
         // POST: Users/Delete/5
         // 删除用户，暂时没有用软删除
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("[controller]/{id:int}/Delete"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -136,9 +137,9 @@ namespace OA.WebApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Users/Login
+        // GET: Login
         // 登陆页面
-        [HttpGet]
+        [HttpGet("[action]")]
         [AllowAnonymous]
         public  IActionResult Login(string returnUrl)
         {
@@ -148,9 +149,9 @@ namespace OA.WebApp.Controllers
             });
         }
 
-        // POST: Users/Login
+        // POST: Login
         // 用户登陆
-        [HttpPost]
+        [HttpPost("[action]")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserDto userDto)
@@ -171,9 +172,9 @@ namespace OA.WebApp.Controllers
         }
 
 
-        // GET: Users/Login
+        // GET: Users/Sigup
         // 注册页面
-        [HttpGet]
+        [HttpGet("[action]")]
         [AllowAnonymous]
         public IActionResult Sigup(string returnUrl)
         {
@@ -185,8 +186,7 @@ namespace OA.WebApp.Controllers
 
         // POST: Users/register
         // 关闭对外开放
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost("[action]")]
         [AllowAnonymous]
         public async Task<IActionResult> Sigup([Bind("UserName,Password")] UserDto userDto)
         {
@@ -206,10 +206,10 @@ namespace OA.WebApp.Controllers
             return View(userDto);
         }
 
-        // GET: Users/Logout
-        // POST: Users/Logout
+        // GET: Logout
+        // POST: Logout
         // 推出登陆
-        [HttpGet, HttpPost]
+        [HttpGet("[action]"), HttpPost("[action]")]
         public async Task<IActionResult> Logout(string returnUrl)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -218,7 +218,6 @@ namespace OA.WebApp.Controllers
 
 
         // private methods
-
         // 用户cookie登陆
         private async Task LoginAsync(User user)
         {
