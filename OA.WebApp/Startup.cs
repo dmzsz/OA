@@ -40,6 +40,8 @@ namespace OA.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Add(new ServiceDescriptor(typeof(T1Context), new T1Context(Configuration.GetConnectionString("T1Context"))));
+
             services.AddScoped<IUserService, UserService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
