@@ -1,121 +1,118 @@
-﻿
-<section id="content" class="container active" style="margin-left: 0px">
-    <!-- Shortcuts -->
-    <hr class="whiter">
-    <!-- Quick Stats -->
-    <div class="block-area">
-        <div class="row">
-            <div class="col-md-2 col-sm-2" style="width: 120px; margin: 0px 0 5px 5px">
-                <img class="owner-logo" src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.ShippingLogo" + alt="" style="background-color:white">
-            </div>
-            <div class="col-md-9 col-sm-9 title">
+﻿<!-- Shortcuts -->
+<hr class="whiter">
+<!-- Quick Stats -->
+<div class="block-area">
+    <div class="row">
+        <div class="col-md-2 col-sm-2" style="width: 80px; margin: 0px 0 5px 5px">
+            <img class="owner-logo" src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.ShippingLogo" + alt="" style="background-color:white">
+        </div>
+        <div class="col-md-9 col-sm-9 title">
 
-                <div class="double-title">
-                    @if (@Model.TransferFlag == 1)
-                    {
-                        <span class="h1">@Model.StartNameCN - @Model.EndNameCN</span>
-                        <span class="h2">@Model.StartNameEN - @Model.EndNameEN</span>
-                    }
-                    else
-                    {
-                        <span class="h1">@Model.StartNameCN - @Model.TransferNameCN- @Model.EndNameCN</span>
-                        <span class="h2">@Model.StartNameEN - @Model.TransferNameEN - @Model.EndNameEN</span>
-                    }
-                </div>
-                <div class="airline-type">
-                    @if (@Model.TransferFlag == 1)
-                    {
-                        <span class="airline-type-span">直航</span>
-                    }
-                    else
-                    {
-                        <span class="airline-type-span">转港</span>
-                    }
-                </div>
-                @if (@Model.SpaceTotal != 0)
+            <div class="double-title">
+                @if (@Model.TransferFlag == 1)
                 {
-                    @if (@Model.SpaceResidue / @Model.SpaceTotal > 7)
-                    {
-                        <span class="cangwei tile" style="color: green">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
-                    }
-                    else if (@Model.SpaceResidue / @Model.SpaceTotal < 4)
-                    {
-                        <span class="cangwei tile" style="color: red">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
-                    }
-                    else
-                    {
-                        <span class="cangwei tile" style="color: yellow">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
-                    }
+                <span class="h2">@Model.StartNameCN - @Model.EndNameCN</span>
+                <span class="h3">@Model.StartNameEN - @Model.EndNameEN</span>
+                }
+                else
+                {
+                <span class="h2">@Model.StartNameCN - @Model.TransferNameCN- @Model.EndNameCN</span>
+                <span class="h3">@Model.StartNameEN - @Model.TransferNameEN - @Model.EndNameEN</span>
                 }
             </div>
-            <div class="col-md-1 col-sm-1 pull-right">
-                <img class="owner-logo" src="~/images/T1logoB.png" alt="" style="border-radius: 100px !important; background-color: white">
+            <div class="airline-type">
+                @if (@Model.TransferFlag == 1)
+                {
+                <span class="airline-type-span">直航</span>
+                }
+                else
+                {
+                <span class="airline-type-span">转港</span>
+                }
             </div>
-            <div class="col-md-offset-1" style="text-align:center;">
-                <div class="col-md-3 col-sm-3">
-                    <div class="tile quick-stats">
-                        <span class="container-type">20GP |</span>
-                        <span class="container-price gp-20-price">@Model.Price20</span>
-                    </div>
+            @if (@Model.SpaceTotal != 0)
+            {
+            @if (@Model.SpaceResidue / @Model.SpaceTotal > 7)
+                {
+            <span class="cangwei tile" style="color: green">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
+                }
+                else if (@Model.SpaceResidue / @Model.SpaceTotal < 4)
+                {
+            <span class="cangwei tile" style="color: red">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
+                }
+                else
+                {
+            <span class="cangwei tile" style="color: yellow">仓位：@Model.SpaceResidue / @Model.SpaceTotal </span>
+                }
+            }
+        </div>
+        <div class="col-md-1 col-sm-1 pull-right">
+            <img class="owner-logo" src="~/images/T1logoB.png" alt="" style="border-radius: 100px !important; background-color: white">
+        </div>
+        <div class="col-md-offset-1" style="text-align:center;">
+            <div class="col-md-3 col-sm-3">
+                <div class="tile quick-stats">
+                    <span class="container-type">20GP |</span>
+                    <span class="container-price gp-20-price">@Model.Price20</span>
                 </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="tile quick-stats">
-                        <span class="container-type">40GP |</span>
-                        <span class="container-price gp-40-price">@Model.Price40</span>
-                    </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="tile quick-stats">
+                    <span class="container-type">40GP |</span>
+                    <span class="container-price gp-40-price">@Model.Price40</span>
                 </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="tile quick-stats">
-                        <span class="container-type">40HC |</span>
-                        <span class="container-price hq-20-price">@Model.Price40HQ</span>
-                    </div>
+            </div>
+            <div class="col-md-3 col-sm-3">
+                <div class="tile quick-stats">
+                    <span class="container-type">40HC |</span>
+                    <span class="container-price hq-20-price">@Model.Price40HQ</span>
                 </div>
             </div>
         </div>
     </div>
-    <hr class="whiter">
-    <!-- Main Widgets -->
-    <div class="block-area">
-        <div class="row">
-            <div class="col-md-8 col-sm-8">
-                <!-- Main Chart -->
-                <div class="tile">
-                    <h2 class="tile-title">Statistics</h2>
-                    <div class="tile-config dropdown">
-                        <a data-toggle="dropdown" href="" class="tile-menu"></a>
-                        <ul class="dropdown-menu pull-right text-right">
-                            <li><a class="tile-info-toggle" href="">Chart Information</a></li>
-                            <li><a href="">Refresh</a></li>
-                            <li><a href="">Settings</a></li>
-                        </ul>
-                    </div>
-                    <div class="p-10">
-                        <!-- <div id="line-chart" class="main-chart" style="height: 379px; padding: 0px; position: relative;"> -->
-                        <div id="line-chart" class="main-chart">
-                            <canvas class="flot-base" id="canvas_@Model.ID" height="300" width="990" style="width: 988px!important; height: 300px;"></canvas>
-                        </div>
+</div>
+<hr class="whiter">
+<!-- Main Widgets -->
+<div class="block-area">
+    <div class="row">
+        <div class="col-md-8 col-sm-8">
+            <!-- Main Chart -->
+            <div class="tile">
+                <h2 class="tile-title">Statistics</h2>
+                <div class="tile-config dropdown">
+                    <a data-toggle="dropdown" href="" class="tile-menu"></a>
+                    <ul class="dropdown-menu pull-right text-right">
+                        <li><a class="tile-info-toggle" href="">Chart Information</a></li>
+                        <li><a href="">Refresh</a></li>
+                        <li><a href="">Settings</a></li>
+                    </ul>
+                </div>
+                <div class="p-10">
+                    <!-- <div id="line-chart" class="main-chart" style="height: 379px; padding: 0px; position: relative;"> -->
+                    <div id="line-chart" class="main-chart">
+                        <canvas class="flot-base" id="canvas_@Model.ID" height="300" width="990" style="width: 988px!important; height: 300px;"></canvas>
                     </div>
                 </div>
-                <!-- Pies -->
-                <div class="clearfix"></div>
             </div>
-            <div class="col-md-4 col-sm-4">
-                <!-- Dynamic Chart -->
-                <div class="tile">
-                    <h2 class="tile-title">挂港图</h2>
-                    <img src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.RouteImg" alt="">
-                    <div class="tile-config dropdown">
-                        <a data-toggle="dropdown" href="" class="tile-menu"></a>
-                        <ul class="dropdown-menu pull-right text-right">
-                            <li><a class="tile-info-toggle" href="">Chart Information</a></li>
-                            <li><a href="">Refresh</a></li>
-                            <li><a href="">Settings</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
+            <!-- Pies -->
             <div class="clearfix"></div>
         </div>
+        <div class="col-md-4 col-sm-4">
+            <!-- Dynamic Chart -->
+            <div class="tile">
+                <h2 class="tile-title">挂港图</h2>
+                <img src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.RouteImg" alt="">
+                <div class="tile-config dropdown">
+                    <a data-toggle="dropdown" href="" class="tile-menu"></a>
+                    <ul class="dropdown-menu pull-right text-right">
+                        <li><a class="tile-info-toggle" href="">Chart Information</a></li>
+                        <li><a href="">Refresh</a></li>
+                        <li><a href="">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
     </div>
-</section>
+</div>

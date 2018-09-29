@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using OA.WebApp.Data;
-using OA.WebApp.Models;
 using OA.WebApp.ViewModels;
 
 namespace OA.WebApp.Controllers
@@ -24,24 +22,27 @@ namespace OA.WebApp.Controllers
             this._context = _context;
         }
 
-        // GET: Vessels
-        // GET: Vessels/Index
-        [HttpGet("[controller]")]
+        // GET: T1data/Show
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Show()
         {
             List<T1DataDto> list = await getT1ListAsync();
-
             return View(list);
         }
-
-        public async Task<List<T1DataDto>> getT1ListAsync(int limit = 10)
+            
+        // GET: T1date/list
+        [HttpGet("[controller]/[action]")]
+        public async Task<IActionResult> GetT1ViewListAsync()
+        {
+            return PartialView("T1ViewList", await getT1ListAsync());
+        }
+        private async Task<List<T1DataDto>> getT1ListAsync(int limit = 10, int offset = 0)
         {
             return await Task.Run(() =>
             {
                 Thread.Sleep(2000);
                 List<T1DataDto> list = new List<T1DataDto>();
-                IDataReader reader = _context.GetDataReader(@"SELECT a.ID,a.FCL_ID,
+            IDataReader reader = _context.GetDataReader(@"SELECT a.ID,a.FCL_ID,
                                                           (SELECT NAME_CN
                                                            FROM b_port
                                                            WHERE ID = a.START_PLACE_ID) AS StartNameCN,
@@ -103,7 +104,7 @@ namespace OA.WebApp.Controllers
                                                           AND DISPLAY_FLAG = 1
                                                           AND REMOVE = 0
                                                           AND a.END_DATE >= NOW()
-                                                        ORDER BY a.END_DATE LIMIT 1");
+                                                        ORDER BY a.END_DATE ");// + " LIMIT limit + " offset " +  offset);
                 while (reader.Read())
                 {
                     T1DataDto t1 = new T1DataDto();
@@ -117,7 +118,7 @@ namespace OA.WebApp.Controllers
                     t1.TransferNameCN = reader.GetString(7);
                     t1.TransferNameEN = reader.GetString(8);
                     t1.ShippingLogo = reader.GetString(9);
-                    t1.RouteImg = "route/pictrue/ecf82c0044824e6f988e9756c52d6003.png";// reader.GetString(10);
+                    t1.RouteImg = reader.GetString(10);
                     t1.SpaceStatus = reader.GetInt32(13);
                     t1.SpaceTotal = reader.GetInt64(14);
                     t1.SpaceResidue = reader.GetInt64(15);

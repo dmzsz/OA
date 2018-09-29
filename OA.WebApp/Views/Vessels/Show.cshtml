@@ -14,7 +14,7 @@
 <table class="table vessels-table">
     <thead>
         <tr>
-            <th>
+            <th style="max-width:196px; width:196px">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -46,9 +46,7 @@
                 @if (index % 2 == 0) { @Html.DisplayName("class=even")} else { @Html.DisplayName("class=odd") }
                 @if (item.OpDate <= DateTime.Now && item.CloseDate > DateTime.Now && item.ETD != DateTime.Now.Date) { @Html.DisplayName("style=color:lawngreen") }
                 else if (item.CloseDate <= DateTime.Now && item.ETD != DateTime.Now.Date) { @Html.DisplayName("style=color:yellow") }
-                else if (item.ETD == DateTime.Now.Date) { @Html.DisplayName("style=color:red") }
-
-                }>
+                else if (item.ETD == DateTime.Now.Date) { @Html.DisplayName("style=color:red") }>
                 <td>
                     <div>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -80,6 +78,10 @@
 </table>
 
 <style>
+    table tbody tr td:first-child {
+        max-width:200px;
+        
+    }
     body div.show_wrapper {
         padding-top: 5px;
     }

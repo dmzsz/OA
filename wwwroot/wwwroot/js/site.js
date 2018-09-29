@@ -19,6 +19,13 @@ $(document).ready(function () {
         });
     }
 
+    // 侧栏user菜单，设置为网站首页
+    if (window.location.pathname === "/") {
+        var user_menu = $(".side-menu a[href='/Users']")
+            .closest("li").addClass("current-page")
+            .closest("ul").css({ "display": "block" })
+            .closest("li").addClass("active");
+    }
 });
 
 

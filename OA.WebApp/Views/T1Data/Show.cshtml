@@ -19,7 +19,7 @@
     <link href="~/css/t1_style.css" rel="stylesheet">
     <style type="text/css">
         .title {
-            height: 90px;
+            height: 80px;
             display: -webkit-flex;
             display: flex;
             justify-content: flex-start;
@@ -38,7 +38,7 @@
             padding: 0 10px;
             margin: 20px 0 0 100px;
             text-align: center;
-            line-height: 45px;
+            line-height: 35px;
             text-shadow: 0px -2px 2px #fff, 0px 2px 2px #fff, 2px 0px 2px #fff, -2px 0px 2px #fff;
         }
 
@@ -68,7 +68,7 @@
 
         #header {
             height: 20px;
-            min-height: 40px;
+            min-height: 30px;
         }
 
         #top-menu #time, #top-menu #date {
@@ -80,9 +80,9 @@
             display: flex;
             padding: 0;
             margin: 5px 0 10px 0;
-            font-size: 25px;
+            font-size: 20px;
             width: 180px;
-            height: 45px;
+            height: 30px;
             justify-content: center;
             align-items: center;
         }
@@ -95,10 +95,10 @@
             margin-top: 20px
         }
 
-            .double-title > span:last-child {
-                display: block;
-                margin: 5px 0 10px 0;
-            }
+        .double-title > span:last-child {
+            display: block;
+            margin: 5px 0 10px 0;
+        }
 
         .owner-logo {
             width: 100px;
@@ -114,13 +114,8 @@
             /*background-color: black;*/
         }
     </style>
-    <!--jQuery -->
     <script src="~/vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Charts -->
     <script src="~/vendors/Chart.js/dist/jquery.flot.js"></script>
-    <!-- EasyPieChart - Animated Pie Charts -->
     <script src="~/vendors/Chart.js/dist/Chart.js"></script>
     <script>
         function ShowChart(chartId, data) {
@@ -152,7 +147,7 @@
                     }]
                 },
                 "options": {
-                    
+
                     maintainAspectRatio: false,
                     legend: {
                         labels: {
@@ -183,10 +178,8 @@
                     }
                 }
             });
-        }
-
+        };
     </script>
-
 </head>
 
 <body id="skin-blur-kiwi" style="" class="">
@@ -209,25 +202,121 @@
     </header>
     <div class="clearfix"></div>
     <script>
-        var data = [];
+        var data = {};
     </script>
     @for (int i = 0; i < Model.Count(); i++)
     {
-        @await Html.PartialAsync("_T1DataView", Model.ElementAt(i));
-        <script>
-        var data = { "@Model.ElementAt(i).ID": {} } ;
-        data["@Model.ElementAt(i).ID"]["date"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).PriceDates));
-        data["@Model.ElementAt(i).ID"]["20gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP20));
-        data["@Model.ElementAt(i).ID"]["40gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP40));
-        data["@Model.ElementAt(i).ID"]["40hc"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).HC40));
-        if (@Model.ElementAt(i).PriceDates.Count() > 1) {
-            ShowChart(@Model.ElementAt(i).ID, data["@Model.ElementAt(i).ID"]);
-        }
 
-        </script>
+        <section id="section_@Model.ElementAt(i).ID" class="t1_section container active" style="margin-left: 0px; display: none">
+            
+            @await Html.PartialAsync("_T1DataView", Model.ElementAt(i))
+            <script>
+               
+                data["@Model.ElementAt(i).ID"] = {};
+                data["@Model.ElementAt(i).ID"]["date"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).PriceDates));
+                data["@Model.ElementAt(i).ID"]["20gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP20));
+                data["@Model.ElementAt(i).ID"]["40gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP40));
+                data["@Model.ElementAt(i).ID"]["40hc"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).HC40));
+                
+            </script>
+        </section>
     }
 
+    <!-- Bootstrap -->
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 
+    <script>
+        function ShowChart(chartId, data) {
+            var ctx = $.find("#canvas_" + chartId);
+            var myChart = new Chart(ctx, {
+                "type": "line",
+                "data": {
+                    "labels": data["date"],
+                    "datasets": [{
+                        "label": "20GP",
+                        "data": data["20gp"],
+                        "fill": false,
+                        "borderColor": "rgb(75, 192, 192)",
+                        "lineTension": 0.3
+                    },
+                    {
+                        "label": "40GP",
+                        "data": data["40gp"],
+                        "fill": false,
+                        "borderColor": "rgb(255, 193, 7)",
+                        "lineTension": 0.3
+                    },
+                    {
+                        "label": "40HC",
+                        "data": data["40hc"],
+                        "fill": false,
+                        "borderColor": "rgb(121, 85, 72)",
+                        "lineTension": 0.3
+                    }]
+                },
+                "options": {
+
+                    maintainAspectRatio: false,
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            fontColor: 'rgb(255, 255, 255)'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            //stacked: true,
+                            gridLines: {
+                                display: false,
+                                color: "rgb(255, 255, 255)",
+                            },
+                            ticks: {
+                                fontColor: "rgb(255, 255, 255)"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false,
+                                color: "rgb(255, 255, 255)"
+                            },
+                            ticks: {
+                                fontColor: "rgb(255, 255, 255)"
+                            }
+                        }]
+                    }
+                }
+            });
+        };
+
+        (function initPageShowFirst() {
+            $("section:first").show();
+            ShowChart(Object.keys(data)[0], data[Object.keys(data)[0]]);
+        })();
+
+        //ShowChart(Object.keys(data)[0]), data.first());
+        $.each(data, function (name, value) {
+            //
+        });
+
+        function ShowT1ViewPartial() {
+            var visible_t1 = $(".t1_section:visible").first();
+
+            var next_t1 = visible_t1.next();
+            if (!visible_t1.next().attr("id")) {
+                visible_t1.hide();
+                $(".t1_section").first().show();
+            } else {
+                visible_t1.hide();
+                next_t1.show();
+            }
+           var id = next_t1.attr('id').split("_")[1];
+            ShowChart(id, data[id]);
+        };
+
+        setInterval(function () {
+            ShowT1ViewPartial();
+        }, 6000);
+    </script>
 </body>
 
 </html>

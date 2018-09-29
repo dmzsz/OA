@@ -72,4 +72,11 @@ var setColor = function () {
             $(this).closest('tr').css("color", "#ffff00");
         }
     });
+
+    $('tbody tr td:nth-child(6)').each(function () {
+        var ETD = new Date($(this).text());
+        if (ETD == new Date()) {
+            $(this).closest('tr').css("color", "#ff0000");
+        }
+    });
 }
