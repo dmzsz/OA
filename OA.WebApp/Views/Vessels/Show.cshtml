@@ -45,7 +45,7 @@
             <tr @if (item.ETD < DateTime.Now) { @Html.DisplayName("style=color:red") }
                 @if (index % 2 == 0) { @Html.DisplayName("class=even")} else { @Html.DisplayName("class=odd") }
                 @if (item.OpDate <= DateTime.Now && item.CloseDate > DateTime.Now && item.ETD != DateTime.Now.Date) { @Html.DisplayName("style=color:lawngreen") }
-                else if (item.CloseDate <= DateTime.Now) { @Html.DisplayName("style=color:yellow") }
+                else if (item.CloseDate <= DateTime.Now && item.ETD != DateTime.Now.Date) { @Html.DisplayName("style=color:yellow") }
                 else if (item.ETD == DateTime.Now.Date) { @Html.DisplayName("style=color:red") }
 
                 }>

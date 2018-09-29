@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -21,18 +22,22 @@ namespace OA.WebApp.Data
         }
 
 
-        public MySqlDataReader GetDataReader(string sql)
+        public IDataReader GetDataReader(string sql)
         {
             MySqlDataReader reader;
             //连接数据库
-            MySqlConnection connection = new MySqlConnection(ConnectionString);
-            connection.Open();
-            ////查找数据库里面的表
-            MySqlCommand mscommand = new MySqlCommand(sql, connection);
-            reader = mscommand.ExecuteReader();
-            connection.Close();
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (var cmd = new MySqlCommand(sql, connection))
+                {
 
-            return reader;
+                    reader = cmd.ExecuteReader();
+                    var dt = new DataTable();
+                    dt.Load(reader);
+                    return dt.CreateDataReader();
+                }
+            }
         }
     }
 }

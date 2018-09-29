@@ -1,0 +1,233 @@
+﻿@model IEnumerable<OA.WebApp.ViewModels.T1DataDto>
+@{
+    ViewData["Title"] = "Show";
+    Layout = "";
+}
+
+<!--[if IE 9 ]><html class="ie9"><![endif]-->
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <meta name="description" content="Violate Responsive Admin Template">
+    <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
+    <title>Super Admin Responsive Template</title>
+    <!-- CSS -->
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/t1_style.css" rel="stylesheet">
+    <style type="text/css">
+        .title {
+            height: 90px;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #top-menu #date {
+            font-size: 20px;
+            padding-top: 10px;
+            margin-right: 4px;
+        }
+
+        .title > .cangwei {
+            font-size: 20px;
+            font-weight:bold;
+            padding: 0 10px;
+            margin: 20px 0 0 100px;
+            text-align: center;
+            line-height: 45px;
+            text-shadow: 0px -2px 2px #fff, 0px 2px 2px #fff, 2px 0px 2px #fff, -2px 0px 2px #fff;
+        }
+
+        .airline-type {
+            position: relative;
+            color: red;
+            font-size: 25px;
+            height: 60px;
+            font-weight: bold;
+        }
+
+        .airline-type-span {
+            position: absolute;
+            width: 70px;
+            top: -20px;
+            left: 0px;
+            padding: 0px 5px;
+            transform: rotate(-15deg);
+            -ms-transform: rotate(-15deg);
+            -moz-transform: rotate(-15deg);
+            -webkit-transform: rotate(-15deg);
+            -o-transform: rotate(-15deg);
+            border: 5px solid red;
+            display: block;
+            border-radius: 15px !important;
+        }
+
+        #header {
+            height: 20px;
+            min-height: 40px;
+        }
+
+        #top-menu #time, #top-menu #date {
+            font-size: 15px;
+        }
+
+        .quick-stats {
+            display: -webkit-flex;
+            display: flex;
+            padding: 0;
+            margin: 5px 0 10px 0;
+            font-size: 25px;
+            width: 180px;
+            height: 45px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container-type {
+            padding-right: 15px;
+        }
+
+        .double-title {
+            margin-top: 20px
+        }
+
+            .double-title > span:last-child {
+                display: block;
+                margin: 5px 0 10px 0;
+            }
+
+        .owner-logo {
+            width: 100px;
+            margin: 8px 0 4px;
+            border: 6px solid rgba(0,0,0,0.2);
+        }
+
+        .flot-base {
+            width: 100% !important;
+        }
+
+        .main-chart {
+            /*background-color: black;*/
+        }
+    </style>
+    <!--jQuery -->
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Charts -->
+    <script src="~/vendors/Chart.js/dist/jquery.flot.js"></script>
+    <!-- EasyPieChart - Animated Pie Charts -->
+    <script src="~/vendors/Chart.js/dist/Chart.js"></script>
+    <script>
+        function ShowChart(chartId, data) {
+            var ctx = $.find("#canvas_" + chartId);
+            var myChart = new Chart(ctx, {
+                "type": "line",
+                "data": {
+                    "labels": data["date"],
+                    "datasets": [{
+                        "label": "20GP",
+                        "data": data["20gp"],
+                        "fill": false,
+                        "borderColor": "rgb(75, 192, 192)",
+                        "lineTension": 0.3
+                    },
+                    {
+                        "label": "40GP",
+                        "data": data["40gp"],
+                        "fill": false,
+                        "borderColor": "rgb(255, 193, 7)",
+                        "lineTension": 0.3
+                    },
+                    {
+                        "label": "40HC",
+                        "data": data["40hc"],
+                        "fill": false,
+                        "borderColor": "rgb(121, 85, 72)",
+                        "lineTension": 0.3
+                    }]
+                },
+                "options": {
+                    
+                    maintainAspectRatio: false,
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            fontColor: 'rgb(255, 255, 255)'
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            //stacked: true,
+                            gridLines: {
+                                display: false,
+                                color: "rgb(255, 255, 255)",
+                            },
+                            ticks: {
+                                fontColor: "rgb(255, 255, 255)"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false,
+                                color: "rgb(255, 255, 255)"
+                            },
+                            ticks: {
+                                fontColor: "rgb(255, 255, 255)"
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+    </script>
+
+</head>
+
+<body id="skin-blur-kiwi" style="" class="">
+    <header id="header" class="media">
+        <div class="media-body">
+            <div class="media" id="top-menu">
+                <div id="time" class="pull-right">
+                    <span id="hours">13</span> :
+                    <span id="min">42</span> :
+                    <span id="sec">13</span>
+                </div>
+                <div id="date" class="pull-right">
+                    <span id="year">2018</span> :
+                    <span id="mouth">8</span> :
+                    <span id="date">6</span>
+                    <span id="day">星期一</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="clearfix"></div>
+    <script>
+        var data = [];
+    </script>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        @await Html.PartialAsync("_T1DataView", Model.ElementAt(i));
+        <script>
+        var data = { "@Model.ElementAt(i).ID": {} } ;
+        data["@Model.ElementAt(i).ID"]["date"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).PriceDates));
+        data["@Model.ElementAt(i).ID"]["20gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP20));
+        data["@Model.ElementAt(i).ID"]["40gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP40));
+        data["@Model.ElementAt(i).ID"]["40hc"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).HC40));
+        if (@Model.ElementAt(i).PriceDates.Count() > 1) {
+            ShowChart(@Model.ElementAt(i).ID, data["@Model.ElementAt(i).ID"]);
+        }
+
+        </script>
+    }
+
+
+</body>
+
+</html>
