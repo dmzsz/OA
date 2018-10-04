@@ -1,15 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using OA.WebApp.ViewModels;
-using OA.WebApp.Data;
 using OA.WebApp.Services;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using OA.Core.Exceptions;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authentication;
 using OA.WebApp.Models;
 using System.Security.Claims;

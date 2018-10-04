@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
+﻿using System.Data;
 using MySql.Data.MySqlClient;
-using OA.WebApp.Models;
-using OA.WebApp.ViewModels;
 
 namespace OA.WebApp.Data
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using OA.Core.Authorization;
 using OA.Core.Exceptions;
 using OA.WebApp.Data;
 using OA.WebApp.Models;

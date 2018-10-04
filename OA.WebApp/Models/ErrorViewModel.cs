@@ -1,5 +1,3 @@
-using System;
-
 namespace OA.WebApp.Models
 {
     public class ErrorViewModel
