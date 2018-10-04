@@ -1,13 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using OA.WebApp.Data;
 using OA.WebApp.ViewModels;
 
@@ -32,17 +29,21 @@ namespace OA.WebApp.Controllers
             
         // GET: T1date/list
         [HttpGet("[controller]/[action]")]
-        public async Task<IActionResult> GetT1ViewListAsync()
+        [HttpPost("[controller]/[action]")]
+        public async Task<IActionResult> UpdateT1ViewList(int limit, int offset)
         {
-            return PartialView("T1ViewList", await getT1ListAsync());
+            List<T1DataDto> list = await getT1ListAsync(limit, offset);
+
+            return PartialView("_T1ViewList", await getT1ListAsync(limit, offset));
         }
+
         private async Task<List<T1DataDto>> getT1ListAsync(int limit = 10, int offset = 0)
         {
             return await Task.Run(() =>
             {
                 Thread.Sleep(2000);
                 List<T1DataDto> list = new List<T1DataDto>();
-            IDataReader reader = _context.GetDataReader(@"SELECT a.ID,a.FCL_ID,
+                IDataReader reader = _context.GetDataReader(@"SELECT a.ID,a.FCL_ID,
                                                           (SELECT NAME_CN
                                                            FROM b_port
                                                            WHERE ID = a.START_PLACE_ID) AS StartNameCN,
@@ -104,7 +105,7 @@ namespace OA.WebApp.Controllers
                                                           AND DISPLAY_FLAG = 1
                                                           AND REMOVE = 0
                                                           AND a.END_DATE >= NOW()
-                                                        ORDER BY a.END_DATE ");// + " LIMIT limit + " offset " +  offset);
+                                                        ORDER BY a.END_DATE LIMIT "  + limit + " offset " +  offset);
                 while (reader.Read())
                 {
                     T1DataDto t1 = new T1DataDto();
@@ -131,6 +132,16 @@ namespace OA.WebApp.Controllers
                     t1.GP20 = reader.IsDBNull(24) ? new int[] { } : Array.ConvertAll(reader.GetString(24).Split(","), int.Parse);
                     t1.GP40 = reader.IsDBNull(25) ? new int[] { } : Array.ConvertAll(reader.GetString(25).Split(","), int.Parse);
                     t1.HC40 = reader.IsDBNull(26) ? new int[] { } : Array.ConvertAll(reader.GetString(26).Split(","), int.Parse);
+
+                    t1.limit = limit;
+                    t1.offset = offset;
+
+                    ArrayList dataList = new ArrayList();
+                    dataList.Add(new Dictionary<string, string[]>() { { "date", t1.PriceDates } });
+                    dataList.Add(new Dictionary<string, int[]>() { { "20gp", t1.GP20 } });
+                    dataList.Add(new Dictionary<string, int[]>() { { "40gp", t1.GP40 } });
+                    dataList.Add(new Dictionary<string, int[]>() { { "40hc", t1.HC40 } });
+                    //T1DataDto.ChartDatas.Add(t1.ID, dataList);
 
                     list.Add(t1);
 

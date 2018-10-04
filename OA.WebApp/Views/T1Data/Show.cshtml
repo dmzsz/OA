@@ -44,7 +44,6 @@
 
         .airline-type {
             position: relative;
-            color: red;
             font-size: 25px;
             height: 60px;
             font-weight: bold;
@@ -61,9 +60,16 @@
             -moz-transform: rotate(-15deg);
             -webkit-transform: rotate(-15deg);
             -o-transform: rotate(-15deg);
-            border: 5px solid red;
             display: block;
             border-radius: 15px !important;
+        }
+        .zhihang-color {
+            border: 5px solid blue;
+            color: blue;
+        }
+        .zhuangang-color {
+            border: 5px solid red;
+            color: red;
         }
 
         #header {
@@ -201,122 +207,65 @@
         </div>
     </header>
     <div class="clearfix"></div>
+    
     <script>
-        var data = {};
+        var t1_char_data = new Map();
     </script>
-    @for (int i = 0; i < Model.Count(); i++)
-    {
 
-        <section id="section_@Model.ElementAt(i).ID" class="t1_section container active" style="margin-left: 0px; display: none">
-            
-            @await Html.PartialAsync("_T1DataView", Model.ElementAt(i))
-            <script>
-               
-                data["@Model.ElementAt(i).ID"] = {};
-                data["@Model.ElementAt(i).ID"]["date"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).PriceDates));
-                data["@Model.ElementAt(i).ID"]["20gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP20));
-                data["@Model.ElementAt(i).ID"]["40gp"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).GP40));
-                data["@Model.ElementAt(i).ID"]["40hc"] = @Html.Raw(Json.Serialize(Model.ElementAt(i).HC40));
-                
-            </script>
-        </section>
-    }
-
-    <!-- Bootstrap -->
-    <script src="~/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <partial name="_T1ViewList" />
 
     <script>
-        function ShowChart(chartId, data) {
-            var ctx = $.find("#canvas_" + chartId);
-            var myChart = new Chart(ctx, {
-                "type": "line",
-                "data": {
-                    "labels": data["date"],
-                    "datasets": [{
-                        "label": "20GP",
-                        "data": data["20gp"],
-                        "fill": false,
-                        "borderColor": "rgb(75, 192, 192)",
-                        "lineTension": 0.3
-                    },
-                    {
-                        "label": "40GP",
-                        "data": data["40gp"],
-                        "fill": false,
-                        "borderColor": "rgb(255, 193, 7)",
-                        "lineTension": 0.3
-                    },
-                    {
-                        "label": "40HC",
-                        "data": data["40hc"],
-                        "fill": false,
-                        "borderColor": "rgb(121, 85, 72)",
-                        "lineTension": 0.3
-                    }]
-                },
-                "options": {
-
-                    maintainAspectRatio: false,
-                    legend: {
-                        labels: {
-                            // This more specific font property overrides the global property
-                            fontColor: 'rgb(255, 255, 255)'
-                        }
-                    },
-                    scales: {
-                        yAxes: [{
-                            //stacked: true,
-                            gridLines: {
-                                display: false,
-                                color: "rgb(255, 255, 255)",
-                            },
-                            ticks: {
-                                fontColor: "rgb(255, 255, 255)"
-                            }
-                        }],
-                        xAxes: [{
-                            gridLines: {
-                                display: false,
-                                color: "rgb(255, 255, 255)"
-                            },
-                            ticks: {
-                                fontColor: "rgb(255, 255, 255)"
-                            }
-                        }]
-                    }
-                }
-            });
+        var initPageShowFirst = function () {
+            $(".t1_section:first").show();
+            first_id = t1_char_data.keys().next().value;
+            ShowChart(first_id, t1_char_data.get(parseInt(first_id)));
         };
-
-        (function initPageShowFirst() {
-            $("section:first").show();
-            ShowChart(Object.keys(data)[0], data[Object.keys(data)[0]]);
-        })();
-
-        //ShowChart(Object.keys(data)[0]), data.first());
-        $.each(data, function (name, value) {
-            //
-        });
+        initPageShowFirst();
 
         function ShowT1ViewPartial() {
             var visible_t1 = $(".t1_section:visible").first();
 
-            var next_t1 = visible_t1.next();
+            var next_t1;
             if (!visible_t1.next().attr("id")) {
                 visible_t1.hide();
-                $(".t1_section").first().show();
+                next_t1 = $(".t1_section").first();
+                next_t1.show();
             } else {
                 visible_t1.hide();
+                next_t1 = visible_t1.next();
                 next_t1.show();
             }
-           var id = next_t1.attr('id').split("_")[1];
-            ShowChart(id, data[id]);
+
+            var id = next_t1.attr('id').split("_")[1];
+            ShowChart(id, t1_char_data.get(parseInt(id)));
         };
 
-        setInterval(function () {
+        function GetList() {
+            $.ajax({
+                url: "/T1Data/UpdateT1ViewList",
+                type: "POST",
+                dataType: 'html',
+                data: { limit: 10, offset: t1_char_data.size },
+                success: function (bodyText) {
+                    if (bodyText.trim() == "") { clearInterval(getT1ListInterval); }
+                    $('section:last').after(bodyText); console.log(bodyText);
+                    $.each($(bodyText).find("script"), function (i, val) {
+                        eval(val.innerHTML);
+                    });
+                }
+            });
+        }
+
+        var showlist = setInterval(function () {
             ShowT1ViewPartial();
-        }, 6000);
+        }, 5000);
+
+        var getT1ListInterval = setInterval(function () {
+            GetList();
+        }, 40000);
+
     </script>
+    
 </body>
 
 </html>
