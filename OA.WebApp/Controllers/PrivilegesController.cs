@@ -1,19 +1,28 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OA.WebApp.Data;
 using OA.WebApp.Models;
+using OA.WebApp.Services;
+using OA.WebApp.ViewModels;
 
 namespace OA.WebApp.Controllers
 {
     public class PrivilegesController : Controller
     {
         private readonly OAContext _context;
+        private IMapper _mapper;
+        private IPrivilegeService _privilegeService;
 
-        public PrivilegesController(OAContext context)
+        public PrivilegesController(OAContext context, IMapper mapper, IPrivilegeService privilegeService)
         {
             _context = context;
+            _mapper = mapper;
+            _privilegeService = privilegeService;
         }
 
         // GET: Privileges
@@ -22,8 +31,11 @@ namespace OA.WebApp.Controllers
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Privileges.ToListAsync());
+            return View(await _privilegeService.GetControllerAsync(null));
         }
+
+        
+
 
         // GET: Privileges/Details/5
         [HttpGet("[controller]/{id:int}")]
@@ -92,12 +104,15 @@ namespace OA.WebApp.Controllers
         [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            var privilege = await _context.Privileges.FindAsync(id);
+            //var privilege = _mapper.Map<PrivilegeDto>(await _context.Privileges.FindAsync(id));
+            var privilege = (await _privilegeService.GetControllerAsync(id)).First();
+            //privilege.ID
             if (privilege == null)
             {
                 return NotFound();

@@ -77,7 +77,7 @@ namespace OA.WebApp.Services
         /// <returns>Role</returns>
         public async Task<RoleDto> GetByUserID(int? id)
         {
-            return _mapper.Map<RoleDto>(_context.Roles.Include(r => r.UserRoles).ThenInclude(r => r.User.ID == id).ToList());
+            return _mapper.Map<RoleDto>(await _context.Roles.Include(r => r.UserRoles).ThenInclude(r => r.User.ID == id).ToArrayAsync());
         }
 
         /// <summary>

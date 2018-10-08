@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OA.WebApp.ViewModels;
 using OA.WebApp.Models;
+using System.Data;
 
 namespace OA.Core.Tools
 {
@@ -10,6 +11,10 @@ namespace OA.Core.Tools
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
+            CreateMap<IDataReader, PrivilegeDto>();
+            CreateMap<Privilege, PrivilegeDto>();
+            CreateMap<PrivilegeDto, Privilege>();
         }
     }
 }

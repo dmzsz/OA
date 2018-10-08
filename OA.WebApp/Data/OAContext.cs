@@ -1,6 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Reflection;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using OA.WebApp.Models;
+using System.Linq;
 
 namespace OA.WebApp.Data
 {
@@ -14,7 +21,8 @@ namespace OA.WebApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .ConfigureWarnings(warnings => warnings.Throw(CoreEventId.IncludeIgnoredWarning));
+                .ConfigureWarnings(warnings => 
+                                   warnings.Throw(CoreEventId.IncludeIgnoredWarning));
         }
 
         public DbSet<OA.WebApp.Models.Employee> Employees { get; set; }
@@ -32,6 +40,82 @@ namespace OA.WebApp.Data
         public DbSet<OA.WebApp.Models.UserPrivilege> UserPrivileges { get; set; }
 
         public DbSet<OA.WebApp.Models.Vessel> Vessels { get; set; }
+        /// <summary>
+        /// 判断SqlDataReader是否存在某列
+        /// </summary>
+        /// <param name="dr">SqlDataReader</param>
+        /// <param name="columnName">列名</param>
+        /// <returns></returns>
+        private bool readerExists(DbDataReader dr, string columnName)
+        {
+
+            dr.GetSchemaTable().DefaultView.RowFilter = "ColumnName= '" + columnName + "'";
+
+            return (dr.GetSchemaTable().DefaultView.Count > 0);
+
+        }
+
+        ///<summary>
+        ///利用反射和泛型将SqlDataReader转换成List模型
+        ///</summary>
+        ///<param name="sql">查询sql语句</param>
+        ///<returns></returns>
+
+        public async Task<IList<T>> ExecuteToListAsync<T>(
+            string sql, List<SqlParameter> paramList = null) where T : new()
+        {
+            IList<T> list;
+
+            Type type = typeof(T);
+
+            string tempName = string.Empty;
+            using (var connection = new SqlConnection(this.Database.GetDbConnection().ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                if (paramList != null)
+                {
+                    command.Parameters.AddRange(paramList.ToArray<SqlParameter>());
+                }
+                await connection.OpenAsync();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (reader.HasRows)
+                    {
+                        list = new List<T>();
+                        while (await reader.ReadAsync())
+                        {
+                            T t = new T();
+
+                            PropertyInfo[] propertys = t.GetType().GetProperties();
+
+                            foreach (PropertyInfo pi in propertys)
+                            {
+                                tempName = pi.Name;
+
+                                if (readerExists(reader, tempName))
+                                {
+                                    if (!pi.CanWrite)
+                                    {
+                                        continue;
+                                    }
+                                    var value = reader[tempName];
+
+                                    if (value != DBNull.Value)
+                                    {
+                                        pi.SetValue(t, value, null);
+                                    }
+
+                                }
+                            }
+                            list.Add(t);
+                        }
+                        return list;
+                    }
+                    reader.Dispose(); // 使用using 应该不需要显示的写了
+                }
+                return null;
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<UserRole>()

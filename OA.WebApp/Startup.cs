@@ -43,6 +43,7 @@ namespace OA.WebApp
             services.Add(new ServiceDescriptor(typeof(T1Context), new T1Context(Configuration.GetConnectionString("T1Context"))));
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPrivilegeService, PrivilegeService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddMemoryCache();

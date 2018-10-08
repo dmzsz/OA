@@ -1,66 +1,70 @@
-﻿@model IEnumerable<OA.WebApp.Models.Privilege>
+﻿@model IEnumerable<OA.WebApp.ViewModels.PrivilegeDto>
+@using OA.WebApp.Helpers
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    <h2>Index</h2>
 
-<h2>Index</h2>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ControllerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActionName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ScopeEnable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ControllerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScopeEnable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    控制器
+                </th>
+                <th>
+                    动作
+                </th>
+                <th>
+                    操作
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                @for (var i = 0; i < item.Controllers.Count(); i++)
+                {
+                    var controller_actions = item.Controllers.ElementAt(i);
+                    @for (var j = 0; j < controller_actions.Keys.Count; j++)
+                    {
+                        var controller = controller_actions.Keys.First();
+                        var actions = controller_actions.Values;
+                    <tr>
+                        <td>
+                            @if(i == 0){
+                                @Html.DisplayFor(modelItem => item.Name)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => controller.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => controller.ControllerName)
+                        </td>
+                        <td>
+                            @string.Join(",", actions.SelectMany(p1 => p1.Select(p => p.ActionName)))
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@controller.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@controller.ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@controller.ID">Delete</a>
+                        </td>
+                    </tr>
+                    }
+                }
+                
+            }
+        </tbody>
+    </table>

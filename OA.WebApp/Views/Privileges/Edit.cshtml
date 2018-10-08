@@ -1,4 +1,5 @@
-﻿@model OA.WebApp.Models.Privilege
+﻿@model OA.WebApp.ViewModels.PrivilegeDto
+@using OA.WebApp.Helpers
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,9 +10,12 @@
 
 <h4>Privilege</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+
+<form asp-action="Edit">
+
+    
+    <div class="row">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
@@ -34,22 +38,62 @@
                 <input asp-for="ControllerName" class="form-control" />
                 <span asp-validation-for="ControllerName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ActionName" class="control-label"></label>
-                <input asp-for="ActionName" class="form-control" />
-                <span asp-validation-for="ActionName" class="
-                      -danger"></span>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="form-group col-md-12">
+                <a href="/Privileges" class="btn btn-default pull-right">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-primary pull-right" />
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+            @{
+                var i = 0;
+                var controllers = @Model.Controllers.Select(p => p.Keys.First());
+                var controller_name = controllers.First().ControllerName;
+            }
+            @foreach (Dictionary<string, Object> all_ctl in @Model.AllControllers)
+            {
+                i += 1;
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="x_panel" id="@all_ctl["Controller"]">
+                        <div class="x_title">
+                            <h2>@all_ctl["Controller"]</h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li class="pull-right">
+                                    <a class="close-link"><i class="fa fa-close"></i></a>
+                                </li>
+                                <li class="pull-right">
+                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content" style="display: block;">
+                            @foreach (var action in (List<string>)all_ctl["Actions"])
+                            {
+                                @(controller_name )
+                                if (controller_name == @all_ctl["Controller"] && @controllers.Where(p => p.ActionName == action).Any())
+                                {
+                                    @controllers.Where(p => p.ActionName == action).Any()
+                                }
+                                <div class="col-md-6">
+                                    <label>
+                                        <input type="checkbox" class="flat" value="@all_ctl["Controller"]_@action"> @action
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                @if (i % 2 == 0)
+                {
+                    <div class="clearfix"></div>
+                }
+            }
+        </div>
     </div>
 </div>
+</form>
 
-<div>
-    <a href="/Privileges">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

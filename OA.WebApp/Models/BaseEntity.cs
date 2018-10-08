@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,7 @@ namespace OA.WebApp.Models
         public DateTime? ModifiedAt { get; set; }
 
         //是否已删除
-        public string Deleted { get; set; } 
+        [DefaultValue(false)]
+        public bool Deleted { get; set; }
     }
 }
