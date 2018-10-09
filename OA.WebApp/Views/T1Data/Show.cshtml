@@ -215,6 +215,13 @@
     <partial name="_T1ViewList" />
 
     <script>
+        // ajax取10条数据
+        var limit = 10;
+        // ajax 请求的次数
+        var time = 0;
+        // 轮播计时器
+        var showlistInterval;
+
         var initPageShowFirst = function () {
             $(".t1_section:first").show();
             first_id = t1_char_data.keys().next().value;
@@ -227,42 +234,79 @@
 
             var next_t1;
             if (!visible_t1.next().attr("id")) {
-                visible_t1.hide();
-                next_t1 = $(".t1_section").first();
-                next_t1.show();
+                //visible_t1.hide();
+                //next_t1 = $(".t1_section").first();
+                //next_t1.show();
+                // 执行到最后一个section，停止页面轮播
+                clearInterval(showlistInterval);
+                GetList(visible_t1);
             } else {
                 visible_t1.hide();
                 next_t1 = visible_t1.next();
                 next_t1.show();
+                var id = next_t1.attr('id').split("_")[1];
+                ShowChart(id, t1_char_data.get(parseInt(id)));
             }
 
-            var id = next_t1.attr('id').split("_")[1];
-            ShowChart(id, t1_char_data.get(parseInt(id)));
+            //var id = next_t1.attr('id').split("_")[1];
+            //ShowChart(id, t1_char_data.get(parseInt(id)));
         };
 
-        function GetList() {
+        // 调用远程数据返回10条section
+        function GetList(visible_t1) {
             $.ajax({
                 url: "/T1Data/UpdateT1ViewList",
                 type: "POST",
                 dataType: 'html',
-                data: { limit: 10, offset: t1_char_data.size },
+                data: { limit: limit, offset: t1_char_data.size * (time++) },
                 success: function (bodyText) {
-                    if (bodyText.trim() == "") { clearInterval(getT1ListInterval); }
-                    $('section:last').after(bodyText); console.log(bodyText);
+                    //if (bodyText.trim() == "") { clearInterval(getT1ListInterval); }
+                    
+                    //$('section:last').after(bodyText); console.log(bodyText);
+                    //$.each($(bodyText).find("script"), function (i, val) {
+                    //    eval(val.innerHTML);
+                    //});
+
+                    if (bodyText.trim() == "") {
+                        time = 0; // 重置定时器调用次数，取得数据库前10条数据
+                        return GetList(visible_t1);
+                    }
+
+                    $('section:last').after(bodyText);
+                    t1_char_data.clear(); // 清空map中的数据
+                    // 放入新数据
                     $.each($(bodyText).find("script"), function (i, val) {
                         eval(val.innerHTML);
                     });
+
+                    // 把新数据上面的一个section隐藏
+                    visible_t1.hide();
+                    // 拿到新插入的section
+                    next_t1 = visible_t1.next();
+                    next_t1.prevAll("section").remove();
+                    // 显示section
+                    next_t1.show();
+                    // 显示折线图
+                    var id = next_t1.attr('id').split("_")[1];
+                    ShowChart(id, t1_char_data.get(parseInt(id)));
+                    // 执行轮播页面
+                    showlist();
                 }
             });
         }
 
-        var showlist = setInterval(function () {
-            ShowT1ViewPartial();
-        }, 5000);
+        // 每隔5秒，轮播下一个页面
+        
+        var showlist = function () {
+            showlistInterval = setInterval(function () {
+                ShowT1ViewPartial(time);
+            }, 5000)
+        };
+        showlist();
 
-        var getT1ListInterval = setInterval(function () {
-            GetList();
-        }, 40000);
+        //var getT1ListInterval = setInterval(function () {
+        //    GetList();
+        //}, 40000);
 
     </script>
     

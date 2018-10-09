@@ -101,7 +101,9 @@
             <!-- Dynamic Chart -->
             <div class="tile">
                 <h2 class="tile-title">挂港图</h2>
-                <img src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.RouteImg" alt="">
+                @if(Model.RouteImg != ""){
+                    <img src="http://t1freight.oss-cn-beijing.aliyuncs.com/@Model.RouteImg" alt="">
+                }
                 <div class="tile-config dropdown">
                     <a data-toggle="dropdown" href="" class="tile-menu"></a>
                     <ul class="dropdown-menu pull-right text-right">
