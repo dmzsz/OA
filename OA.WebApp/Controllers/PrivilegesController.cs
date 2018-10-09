@@ -83,7 +83,7 @@ namespace OA.WebApp.Controllers
         [HttpGet("[controller]/[action]")]
         public IActionResult Create()
         {
-            return View();
+            return View(new PrivilegeDto());
         }
 
         // POST: Privileges/Create

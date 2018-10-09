@@ -70,16 +70,22 @@
                         <div class="x_content" style="display: block;">
                             @foreach (var action in (List<string>)all_ctl["Actions"])
                             {
-                                @(controller_name )
-                                if (controller_name == @all_ctl["Controller"] && @controllers.Where(p => p.ActionName == action).Any())
-                                {
-                                    @controllers.Where(p => p.ActionName == action).Any()
-                                }
-                                <div class="col-md-6">
-                                    <label>
-                                        <input type="checkbox" class="flat" value="@all_ctl["Controller"]_@action"> @action
-                                    </label>
-                                </div>
+                            <div class="col-md-6">
+                                <label>
+                                    @if ((controller_name == all_ctl["Controller"].ToString().Split("Controller")[0] ||
+                                        controller_name == all_ctl["Controller"] ||
+                                        controller_name+"s" == all_ctl["Controller"].ToString().Split("Controller")[0]) 
+                                    && @controllers.Where(p => p.ActionName == action).Any())
+                                    {
+                                    <input type="checkbox" class="flat" value="@all_ctl["Controller"]_@action" checked> @action
+                                    }
+                                    else
+                                    {
+                                    <input type="checkbox" class="flat" value="@all_ctl["Controller"]_@action"> @action
+                                    }
+
+                                </label>
+                            </div>
                             }
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-﻿@model OA.WebApp.Models.Privilege
+﻿@model OA.WebApp.ViewModels.PrivilegeDto
 
 @{
     ViewData["Title"] = "Create";
@@ -9,7 +9,7 @@
 
 <h4>Privilege</h4>
 <hr />
-<div class="row">
+<div class="row Privilege_Create">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -30,20 +30,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="ControllerName" class="control-label"></label>
-                <input asp-for="ControllerName" class="form-control" />
+                <div class="radio-inline" style="padding-left: 0;">
+                    @foreach (Dictionary<string, Object> all_ctl in @Model.AllControllers)
+                    {
+                        string controller_name = @all_ctl["Controller"].ToString().Split("Controller")[0];
+                        <label>
+                            <input type="radio" class="flat"  name="ControllerName" value="@controller_name"> @controller_name
+                        </label>
+                    }
+                </div>
                 <span asp-validation-for="ControllerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ActionName" class="control-label"></label>
-                <input asp-for="ActionName" class="form-control" />
-                <span asp-validation-for="ActionName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="ScopeEnable" /> @Html.DisplayName("是否可以选择范围")
-                    </label>
+                <label asp-for="ActionNames" class="control-label"></label>
+                <div class="radio-inline" style="padding-left: 0;" id="ActionNames">
+                    @foreach (var action in (List<string>)Model.AllControllers.First()["Actions"])
+                    {
+                        <label>
+                            <input type="checkbox" class="flat" name="iCheck" value="@action"> @action
+                        </label>
+                    }
                 </div>
+                <span asp-validation-for="ActionNames" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -58,4 +66,20 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        var controllers = new Map();
+        @foreach(var all_ctl in @Model.AllControllers)
+        {
+            //controllers.set("ctl_name", 10);
+        }
+    
+        @*var all_ctl = @Json.Serialize();*@
+        $('.Privilege_Create input[type=radio][name=ControllerName]').on('ifChecked', function () {
+            var controller = this.value;
+            
+        });
+        
+    </script>
 }
+
+

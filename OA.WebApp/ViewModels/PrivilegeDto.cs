@@ -24,14 +24,16 @@ namespace OA.WebApp.ViewModels
         
         public string Namespace { get; set; }
 
-        [Display(Name = "控制器分组")]
+        [Display(Name = "控制器")]
         public string ControllerName { get; set; }
+        [Display(Name = "Action Name集合")]
+        public IEnumerable<Privilege> ActionNames { get; set; }
 
         [Display(Name = "所属的控制器")]
         public IEnumerable<Dictionary<Privilege, IEnumerable<Privilege>>> Controllers { get; set; }
 
-        [Display(Name = "Action集合")]
-        public string ActionNames { get; set; }
+        [Display(Name = "Action Name 字符串")]
+        public string ActionNamesStr { get; set; }
 
         //以name和和controller进行分组，找到所属的Actions
         [Display(Name = "Action集合")]
