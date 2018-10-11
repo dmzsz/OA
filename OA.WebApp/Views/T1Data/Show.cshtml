@@ -34,7 +34,7 @@
 
         .title > .cangwei {
             font-size: 20px;
-            font-weight:bold;
+            font-weight: bold;
             padding: 0 10px;
             margin: 20px 0 0 100px;
             text-align: center;
@@ -63,10 +63,12 @@
             display: block;
             border-radius: 15px !important;
         }
+
         .zhihang-color {
             border: 5px solid blue;
             color: blue;
         }
+
         .zhuangang-color {
             border: 5px solid red;
             color: red;
@@ -101,10 +103,10 @@
             margin-top: 20px
         }
 
-        .double-title > span:last-child {
-            display: block;
-            margin: 5px 0 10px 0;
-        }
+            .double-title > span:last-child {
+                display: block;
+                margin: 5px 0 10px 0;
+            }
 
         .owner-logo {
             width: 100px;
@@ -123,6 +125,7 @@
     <script src="~/vendors/jquery/dist/jquery.min.js"></script>
     <script src="~/vendors/Chart.js/dist/jquery.flot.js"></script>
     <script src="~/vendors/Chart.js/dist/Chart.js"></script>
+    <script src="~/js/site.js"></script>
     <script>
         function ShowChart(chartId, data) {
             var ctx = $.find("#canvas_" + chartId);
@@ -308,6 +311,7 @@
         //    GetList();
         //}, 40000);
 
+        t1_data.clock();
     </script>
     
 </body>
