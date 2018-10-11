@@ -79,9 +79,9 @@ namespace OA.WebApp.ViewModels
         [Display(Name = "40HC历史价格")]
         public int[] HC40 { get; set; }
 
-        public int limit { get; set; }
+        public int Limit { get; set; }
 
-        public int offset { get; set; }
+        public int Offset { get; set; }
 
         // 存储的是id 已经对应的 发布时间 GP20 GP40 HC40
         public static IDictionary<int, ArrayList> ChartDatas { get; set; }

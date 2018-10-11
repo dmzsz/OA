@@ -21,9 +21,9 @@ namespace OA.WebApp.Controllers
 
         // GET: T1data/Show
         [HttpGet("[controller]/[action]")]
-        public async Task<IActionResult> Show()
+        public async Task<IActionResult> Show(int page = 1)
         {
-            List<T1DataDto> list = await getT1ListAsync();
+            List<T1DataDto> list = await getT1ListAsync(10, (page-1) * 10);
             return View(list);
         }
             
@@ -133,8 +133,8 @@ namespace OA.WebApp.Controllers
                     t1.GP40 = reader.IsDBNull(25) ? new int[] { } : Array.ConvertAll(reader.GetString(25).Split(","), int.Parse);
                     t1.HC40 = reader.IsDBNull(26) ? new int[] { } : Array.ConvertAll(reader.GetString(26).Split(","), int.Parse);
 
-                    t1.limit = limit;
-                    t1.offset = offset;
+                    t1.Limit = limit;
+                    t1.Offset = offset;
 
                     ArrayList dataList = new ArrayList();
                     dataList.Add(new Dictionary<string, string[]>() { { "date", t1.PriceDates } });

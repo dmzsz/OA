@@ -218,6 +218,7 @@
     <partial name="_T1ViewList" />
 
     <script>
+        
         // ajax取10条数据
         var limit = 10;
         // ajax 请求的次数
@@ -241,8 +242,10 @@
                 //next_t1 = $(".t1_section").first();
                 //next_t1.show();
                 // 执行到最后一个section，停止页面轮播
-                clearInterval(showlistInterval);
-                GetList(visible_t1);
+                //clearInterval(showlistInterval);
+                var page = parseInt(tools.getQueryVariable("page") || "1");
+                window.location.replace(location.href.split(["?"])[0] + "?page=" + (page + 1));
+                // GetList(visible_t1);
             } else {
                 visible_t1.hide();
                 next_t1 = visible_t1.next();
@@ -272,6 +275,7 @@
 
                     if (bodyText.trim() == "") {
                         time = 0; // 重置定时器调用次数，取得数据库前10条数据
+                        document.cookie = "t1.times=" + time;
                         return GetList(visible_t1);
                     }
 
