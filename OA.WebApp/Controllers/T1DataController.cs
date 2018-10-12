@@ -84,22 +84,22 @@ namespace OA.WebApp.Controllers
                                                                          FROM t_freight_fcl_history
                                                                          WHERE SIGN = a.SIGN
                                                                            AND BEGIN_DATE BETWEEN DATE_ADD(NOW(),INTERVAL -8 WEEK) AND NOW()
-                                                                         GROUP BY SIGN),'') AS BEGINDATE,
+                                                                         GROUP BY SIGN),0) AS BEGINDATE,
                                                                IFNULL((SELECT GROUP_CONCAT(PRICE_20)
                                                                          FROM t_freight_fcl_history
                                                                          WHERE SIGN =a.SIGN
                                                                            AND BEGIN_DATE BETWEEN DATE_ADD(NOW(),INTERVAL -8 WEEK) AND NOW()
-                                                                         GROUP BY SIGN),'') AS 20GP,
+                                                                         GROUP BY SIGN),0) AS 20GP,
                                                                IFNULL((SELECT GROUP_CONCAT(PRICE_40)
                                                                          FROM t_freight_fcl_history
                                                                          WHERE SIGN =a.SIGN
                                                                            AND BEGIN_DATE BETWEEN DATE_ADD(NOW(),INTERVAL -8 WEEK) AND NOW()
-                                                                         GROUP BY SIGN),'') AS 40GP,
+                                                                         GROUP BY SIGN),0) AS 40GP,
                                                                IFNULL((SELECT GROUP_CONCAT(PRICE_40HQ)
                                                                          FROM t_freight_fcl_history
                                                                          WHERE SIGN =a.SIGN
                                                                            AND BEGIN_DATE BETWEEN DATE_ADD(NOW(),INTERVAL -8 WEEK) AND NOW()
-                                                                         GROUP BY SIGN),'') AS 40HC
+                                                                         GROUP BY SIGN),0) AS 40HC
                                                         FROM t_freight_fcl a
                                                         WHERE RULE_TYPE = 1
                                                           AND DISPLAY_FLAG = 1

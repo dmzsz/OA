@@ -111,7 +111,6 @@ namespace OA.WebApp.Data
                         }
                         return list;
                     }
-                    reader.Dispose(); // 使用using 应该不需要显示的写了
                 }
                 return null;
             }

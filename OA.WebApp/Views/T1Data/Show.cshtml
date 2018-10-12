@@ -13,6 +13,9 @@
     <meta charset="UTF-8">
     <meta name="description" content="Violate Responsive Admin Template">
     <meta name="keywords" content="Super Admin, Admin, Template, Bootstrap">
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
     <title>Super Admin Responsive Template</title>
     <!-- CSS -->
     <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -210,7 +213,7 @@
         </div>
     </header>
     <div class="clearfix"></div>
-    
+
     <script>
         var t1_char_data = new Map();
     </script>
@@ -218,13 +221,14 @@
     <partial name="_T1ViewList" />
 
     <script>
-        
         // ajax取10条数据
         var limit = 10;
         // ajax 请求的次数
-        var time = 0;
+        var time = 1;
         // 轮播计时器
         var showlistInterval;
+        // 不要使用Interval，会引发内存溢出
+        var timeout = false;
 
         var initPageShowFirst = function () {
             $(".t1_section:first").show();
@@ -242,10 +246,8 @@
                 //next_t1 = $(".t1_section").first();
                 //next_t1.show();
                 // 执行到最后一个section，停止页面轮播
-                //clearInterval(showlistInterval);
-                var page = parseInt(tools.getQueryVariable("page") || "1");
-                window.location.replace(location.href.split(["?"])[0] + "?page=" + (page + 1));
-                // GetList(visible_t1);
+                timeout = true;
+                GetList(visible_t1);
             } else {
                 visible_t1.hide();
                 next_t1 = visible_t1.next();
@@ -264,18 +266,18 @@
                 url: "/T1Data/UpdateT1ViewList",
                 type: "POST",
                 dataType: 'html',
+                cache: false,
                 data: { limit: limit, offset: t1_char_data.size * (time++) },
                 success: function (bodyText) {
                     //if (bodyText.trim() == "") { clearInterval(getT1ListInterval); }
-                    
+
                     //$('section:last').after(bodyText); console.log(bodyText);
                     //$.each($(bodyText).find("script"), function (i, val) {
                     //    eval(val.innerHTML);
                     //});
 
                     if (bodyText.trim() == "") {
-                        time = 0; // 重置定时器调用次数，取得数据库前10条数据
-                        document.cookie = "t1.times=" + time;
+                        time = 0; // 重置定时器调用次数，取得数据库前10条数据\
                         return GetList(visible_t1);
                     }
 
@@ -297,18 +299,18 @@
                     var id = next_t1.attr('id').split("_")[1];
                     ShowChart(id, t1_char_data.get(parseInt(id)));
                     // 执行轮播页面
+                    timeout = false;
                     showlist();
                 }
             });
         }
 
         // 每隔5秒，轮播下一个页面
-        
-        var showlist = function () {
-            showlistInterval = setInterval(function () {
-                ShowT1ViewPartial(time);
-            }, 5000)
-        };
+        function showlist() {
+            if (timeout) return;
+            ShowT1ViewPartial(time);
+            setTimeout(showlist, 5000);
+        }  
         showlist();
 
         //var getT1ListInterval = setInterval(function () {
@@ -317,7 +319,7 @@
 
         t1_data.clock();
     </script>
-    
+
 </body>
 
 </html>
