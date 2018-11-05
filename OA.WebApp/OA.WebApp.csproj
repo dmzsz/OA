@@ -12,6 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181105063211_journal.cs" />
+    <Compile Remove="Migrations\20181105063211_journal.Designer.cs" />
+    <Compile Remove="Migrations\20181105071338_journal.cs" />
+    <Compile Remove="Migrations\20181105071338_journal.Designer.cs" />
+    <Compile Remove="Migrations\20181105071845_journal.cs" />
+    <Compile Remove="Migrations\20181105071845_journal.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />

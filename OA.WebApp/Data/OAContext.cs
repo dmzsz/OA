@@ -40,6 +40,9 @@ namespace OA.WebApp.Data
         public DbSet<OA.WebApp.Models.UserPrivilege> UserPrivileges { get; set; }
 
         public DbSet<OA.WebApp.Models.Vessel> Vessels { get; set; }
+
+        public DbSet<OA.WebApp.Models.Journal> Journals { get; set; }
+
         /// <summary>
         /// 判断SqlDataReader是否存在某列
         /// </summary>

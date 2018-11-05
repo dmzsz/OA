@@ -17,6 +17,10 @@ $(document).ready(function () {
             format: 'YYYY/MM/DD',
             useCurrent: false
         });
+        $("#RecordDate-datetimepicker").datetimepicker({
+            format: 'YYYY/MM/DD',
+            useCurrent: false
+        });
     }
 
     // 侧栏user菜单，设置为网站首页

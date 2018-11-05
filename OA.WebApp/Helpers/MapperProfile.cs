@@ -15,6 +15,10 @@ namespace OA.Core.Tools
             CreateMap<IDataReader, PrivilegeDto>();
             CreateMap<Privilege, PrivilegeDto>();
             CreateMap<PrivilegeDto, Privilege>();
+
+            //lxy
+            CreateMap<Journal, JournalDto>();
+            CreateMap<JournalDto, Journal>();
         }
     }
 }
