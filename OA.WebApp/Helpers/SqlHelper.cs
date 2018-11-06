@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
+using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using OA.WebApp.Data;
 
 namespace OA.WebApp.Helpers
 {
     static class SqlHelper
     {
-        //static void Main(string[] args)
-        //{
-        //    String connectionString = "data source=.;initial catalog=oa;persist security info=True;user id=sa;password=sasasa;MultipleActiveResultSets=True;App=EntityFramework";
-        //}
-
+       
         // 执行命令，如 TRANSACT-SQL INSERT、 DELETE、 UPDATE 和 SET 语句。  
-        public static Int32 ExecuteNonQuery(DbContext dbcontext, String commandText, 
+        public static Task<Int32> ExecuteNonQueryAsync(DbContext dbcontext, String commandText, 
             CommandType commandType, params SqlParameter[] parameters)
         {
             using (SqlConnection conn = new SqlConnection(
@@ -27,10 +28,11 @@ namespace OA.WebApp.Helpers
                     cmd.Parameters.AddRange(parameters);
 
                     conn.Open();
-                    return cmd.ExecuteNonQuery();
+                    return cmd.ExecuteNonQueryAsync();
                 }
             }
         }
+
 
         /// 从数据库中检索单个值 （例如，一个聚合值)  
         public static Object ExecuteScalar(DbContext dbcontext, String commandText,
@@ -45,12 +47,12 @@ namespace OA.WebApp.Helpers
                     cmd.Parameters.AddRange(parameters);
 
                     conn.Open();
-                    return cmd.ExecuteScalar();
+                    return cmd.ExecuteScalarAsync();
                 }
             }
         }
 
-        public static SqlDataReader ExecuteReader(DbContext dbcontext, String commandText,
+        public static Task<SqlDataReader> ExecuteReaderAsync(DbContext dbcontext, String commandText,
             CommandType commandType, params SqlParameter[] parameters)
         {
             SqlConnection conn = new SqlConnection(
@@ -63,23 +65,69 @@ namespace OA.WebApp.Helpers
 
                 conn.Open();
                 // When using CommandBehavior.CloseConnection, the connection will be closed when the   
-                // IDataReader is closed.  
-                SqlDataReader reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-                return reader;
+                // IDataReader is closed.
+                return cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
             }
         }
 
-        static void CountCourses(DbContext dbcontext, Int32 year)
+        public static async Task<IEnumerable<T>> ReaderToListAsync<T>(DbDataReader reader) where T : new()
         {
-            String commandText = "Select Count([CourseID]) FROM [MySchool].[dbo].[Course] Where Year=@Year";
-            SqlParameter parameterYear = new SqlParameter("@Year", SqlDbType.Int);
-            parameterYear.Value = year;
+            IList<T> list = new List<T>();
+            string tempName = string.Empty;
 
-            Object oValue = SqlHelper.ExecuteScalar(dbcontext, commandText, CommandType.Text, parameterYear);
-            Int32 count;
-            if (Int32.TryParse(oValue.ToString(), out count))
-                Console.WriteLine("There {0} {1} course{2} in {3}.", count > 1 ? "are" : "is", count, count > 1 ? "s" : null, year);
+            if (reader.HasRows)
+            {
+                while (await reader.ReadAsync())
+                {
+                    T t = new T();
+
+                    PropertyInfo[] propertys = t.GetType().GetProperties();
+
+                    foreach (PropertyInfo pi in propertys)
+                    {
+                        tempName = pi.Name;
+
+                        if (!pi.CanWrite)
+                        {
+                            continue;
+                        }
+                        var value = reader[tempName];
+
+                        if (value != DBNull.Value)
+                        {
+                            pi.SetValue(t, value, null);
+                        }
+                    }
+                    list.Add(t);
+                }
+            }
+            return list;
+        }
+
+        public static SqlParameter[] setParamsFrom(object obj)
+        {
+            //得到对象的类型
+            Type type = obj.GetType();
+            //得到字段的值,只能得到public类型的字典的值
+            PropertyInfo[] propertys = type.GetProperties();
+            int length = propertys.Length;
+            SqlParameter[] sqlParameter = new SqlParameter[propertys.Length];
+
+            //SqlParameter parameterAmount = new SqlParameter("@Amount", SqlDbType.Int);
+            //parameterAmount.Value = journal.Amount;
+
+            for (int i = 0; i < length; i++)
+            {
+                //字段名称
+                string fieldName = propertys[i].Name;
+                //字段类型
+                Type fieldType = propertys[i].PropertyType;
+                //字段的值
+                object fieldValue = propertys[i].GetValue(obj); // == null  ? "" : propertys[i].GetValue(journal).ToString();
+                if (fieldValue == null) fieldValue = DBNull.Value;
+                sqlParameter[i] = new SqlParameter("@" + fieldName, fieldValue);
+            }
+            return sqlParameter;
         }
     }
 }
