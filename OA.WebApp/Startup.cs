@@ -89,26 +89,6 @@ namespace OA.WebApp
 
             app.UseMvc(routes =>
             {
-                //routes.MapRoute(
-                //   name: "member",
-                //   template: "{controller}/{id}/{action}");
-                //routes.MapRoute(
-                //   name: "default",
-                //   template: "{controller}/{action=Index}");
-
-
-                //routes.MapRoute(
-                //    name: "Login",
-                //    template: "Login",
-                //    defaults: new { controller = "Users", action = "Login" });
-                //routes.MapRoute(
-                //    name: "nestedMember",
-                //    template: "{controller}/{id}/{memberController}/{memberId}/{memberAction}",
-                //    defaults: new { controller = "Roles", memberController = "Privileges", memberAction = "Create" });
-                //routes.MapRoute(
-                //    name: "nestedCollection",
-                //    template: "{controller}/{id}/{memberController}/{memberAction}",
-                //    defaults: new { controller = "Roles", memberController = "Privileges", memberAction = "New" });
             });
         }
     }

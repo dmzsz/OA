@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OA.WebApp.Data;
+using OA.WebApp.Helpers;
 using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
     public class JournalsController : Controller
     {
-        private OAContext _context;
-        private IMapper _mapper;
+        private readonly OAContext _context;
 
-        public JournalsController(OAContext context, IMapper mapper)
+        public JournalsController(OAContext context)
         {
-            this._context = context;
-            this._mapper = mapper;
+            _context = context;
         }
 
         // GET: Journals
@@ -27,11 +27,16 @@ namespace OA.WebApp.Controllers
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Journals.ToListAsync());
+            string selectSql = @"SELECT * FROM fm_Journal where deleted = 0";
+            SqlDataReader reader = await SqlHelper.ExecuteReaderAsync(_context, selectSql, CommandType.Text);
+            IEnumerable<Journal> list = SqlHelper.ReaderToListAsync<Journal>(reader).Result;
+            return View(list);
+            //return View(await _context.Journals.ToListAsync());
         }
 
         // GET: Journals/Details/5
-        [HttpGet("[controller]/[action]")]
+        [HttpGet("[controller]/{id:int}")]
+        [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -39,8 +44,14 @@ namespace OA.WebApp.Controllers
                 return NotFound();
             }
 
-            var journal = await _context.Journals
-                .FirstOrDefaultAsync(m => m.ID == id);
+            //var journal = await _context.Journals
+            //    .FirstOrDefaultAsync(m => m.ID == id);
+            string selectSql = @"SELECT * FROM fm_Journal where id = @id";
+            SqlParameter parameterId = new SqlParameter("@id", SqlDbType.Int);
+            parameterId.Value = id;
+            SqlDataReader reader = await SqlHelper.ExecuteReaderAsync(_context, selectSql, CommandType.Text, parameterId);
+            Journal journal = SqlHelper.ReaderToListAsync<Journal>(reader).Result.FirstOrDefault();
+
             if (journal == null)
             {
                 return NotFound();
@@ -61,19 +72,34 @@ namespace OA.WebApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,RecordDate,Summary,ClientID,Amount,Borrowing,SalesAmount,Paytype,PayDate,ReceiptNo,AccountType,Deleted,CreatedBy,CreatedAt,ModifiedBy,ModifiedAt")] Journal journal)
+        public async Task<IActionResult> Create([Bind("ID,RecordDate,Summary,ClientID,Amount,Borrowing,SalesAmount,Paytype,PayDate,ReceiptNo,AccountType,Deleted")] Journal journal)
         {
             if (ModelState.IsValid)
-            {
-                _context.Add(journal);
-                await _context.SaveChangesAsync();
+            { 
+                string insertSql = @"INSERT INTO fm_Journal (
+                                        RecordDate,  Summary,  ClientID,  Amount,  Borrowing,  SalesAmount,    Paytype,  PayDate,  ReceiptNo,  AccountType,  Deleted)
+                                     VALUES (
+                                        @RecordDate, @Summary, @ClientID, @Amount, @Borrowing, @SalesAmount,  @Paytype, @PayDate, @ReceiptNo, @AccountType, @Deleted)";
+
+                try
+                {
+                   await SqlHelper.ExecuteNonQueryAsync(_context, insertSql, CommandType.Text, SqlHelper.setParamsFrom(journal));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Caught exception: " + ex.Message);
+                }
+
+                //_context.Add(journal);
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(journal);
         }
 
         // GET: Journals/Edit/5
-        [HttpGet("[controller]/[action]")]
+        [HttpGet("[controller]/{id:int}")]
+        [HttpGet("[controller]/{id:int}/[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,9 +118,9 @@ namespace OA.WebApp.Controllers
         // POST: Journals/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost("[controller]/[action]")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,RecordDate,Summary,ClientID,Amount,Borrowing,SalesAmount,Paytype,PayDate,ReceiptNo,AccountType,Deleted,CreatedBy,CreatedAt,ModifiedBy,ModifiedAt")] Journal journal)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,RecordDate,Summary,ClientID,Amount,Borrowing,SalesAmount,Paytype,PayDate,ReceiptNo,AccountType,Deleted")] Journal journal)
         {
             if (id != journal.ID)
             {
@@ -125,7 +151,6 @@ namespace OA.WebApp.Controllers
         }
 
         // GET: Journals/Delete/5
-        [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,7 +169,7 @@ namespace OA.WebApp.Controllers
         }
 
         // POST: Journals/Delete/5
-        [HttpPost("[controller]/[action]"), ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OA.WebApp.Models
 {
-    [Table("fm_journal")]
-    public class Journal
+    [Table("fm_Journal")]
+    public class Journal : BaseEntity
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int ID { get; set; }
 
         [Display(Name = "记录日期")]
@@ -45,18 +42,5 @@ namespace OA.WebApp.Models
 
         [Display(Name = "删除")]
         public bool Deleted { get; set; }
-
-        [Display(Name = "创建人")]
-        public string CreatedBy { get; set; }
-
-        [Display(Name = "创建日期")]
-        public DateTime CreatedAt { get; set; }
-
-        [Display(Name = "修改人")]
-        public string ModifiedBy { get; set; }
-
-        [Display(Name = "修改日期")]
-        public DateTime ModifiedAt { get; set; }
-
     }
 }

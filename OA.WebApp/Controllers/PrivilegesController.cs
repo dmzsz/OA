@@ -6,7 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OA.WebApp.Data;
-using OA.WebApp.Models;
+using OA.WebApp.Models; 
 using OA.WebApp.Services;
 using OA.WebApp.ViewModels;
 
@@ -31,7 +31,8 @@ namespace OA.WebApp.Controllers
         [HttpGet("[controller]/[action]")]
         public async Task<IActionResult> Index()
         {
-            return View(await _privilegeService.GetControllerAsync(null));
+            return View(await _privilegeService
+                .GetControllerAsync(null));
         }
 
         
