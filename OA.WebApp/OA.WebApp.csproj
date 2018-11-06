@@ -18,13 +18,19 @@
     <Compile Remove="Migrations\20181105071338_journal.Designer.cs" />
     <Compile Remove="Migrations\20181105071845_journal.cs" />
     <Compile Remove="Migrations\20181105071845_journal.Designer.cs" />
+    <Compile Remove="Migrations\20181106020103_journals.cs" />
+    <Compile Remove="Migrations\20181106020103_journals.Designer.cs" />
+    <Compile Remove="Migrations\20181106020551_journals-1.cs" />
+    <Compile Remove="Migrations\20181106020551_journals-1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Cxlt.Extensions.Configuration.Yaml" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
     <PackageReference Include="MySql.Data" Version="8.0.12" />
+    <PackageReference Include="YamlDotNet" Version="5.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +49,10 @@
     <Content Update="Views\Vessels\Show.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Config\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
