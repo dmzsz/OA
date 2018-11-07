@@ -18,10 +18,16 @@
     <Compile Remove="Migrations\20181105071338_journal.Designer.cs" />
     <Compile Remove="Migrations\20181105071845_journal.cs" />
     <Compile Remove="Migrations\20181105071845_journal.Designer.cs" />
+    <Compile Remove="Migrations\20181105105306_journal.cs" />
+    <Compile Remove="Migrations\20181105105306_journal.Designer.cs" />
+    <Compile Remove="Migrations\20181105140539_Journal.cs" />
+    <Compile Remove="Migrations\20181105140539_Journal.Designer.cs" />
     <Compile Remove="Migrations\20181106020103_journals.cs" />
     <Compile Remove="Migrations\20181106020103_journals.Designer.cs" />
     <Compile Remove="Migrations\20181106020551_journals-1.cs" />
     <Compile Remove="Migrations\20181106020551_journals-1.Designer.cs" />
+    <Compile Remove="Migrations\20181106021051_journals.cs" />
+    <Compile Remove="Migrations\20181106021051_journals.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,10 +55,6 @@
     <Content Update="Views\Vessels\Show.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Config\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>

@@ -97,6 +97,38 @@ namespace OA.WebApp.Controllers
             return View(journal);
         }
 
+        [HttpGet("[controller]/[action]")]
+        public IActionResult Entry()
+        {
+            DataSet Xmlread = new DataSet();
+            Xmlread.ReadXml(@"Config\Journals.xml");
+            ViewData["text"] = Xmlread.Tables["Entry"].Rows[0]["insert"].ToString();
+            return View();
+        }
+    
+        [HttpPost("[controller]/[action]")]
+        public async Task<IActionResult> Entry([Bind("RecordDate,Summary,ClientID,Amount,Borrowing")] Journal journal)
+        {
+            DataSet Xmlread = new DataSet();
+            Xmlread.ReadXml(@"Config\Journals.xml");
+            ViewData["text"] = Xmlread.Tables["Entry"].Rows[0]["insert"].ToString();
+            if (ModelState.IsValid)
+            {
+                string insertSql = Xmlread.Tables["Entry"].Rows[0]["insert"].ToString();
+                try
+                {
+                    Console.WriteLine("========="+journal.RecordDate);
+                    await SqlHelper.ExecuteNonQueryAsync(_context, insertSql, CommandType.Text, SqlHelper.setParamsFrom(journal));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Caught exception: " + ex.Message);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(journal);
+        }
+
         // GET: Journals/Edit/5
         [HttpGet("[controller]/{id:int}")]
         [HttpGet("[controller]/{id:int}/[action]")]

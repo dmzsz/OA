@@ -11,7 +11,7 @@ namespace OA.WebApp.Models
         public int ID { get; set; }
 
         [Display(Name = "记录日期")]
-        public DateTime RecordDate { get; set; }
+        public DateTime? RecordDate { get; set; }
 
         [Display(Name = "摘要")]
         public string Summary { get; set; }
@@ -32,7 +32,7 @@ namespace OA.WebApp.Models
         public string Paytype { get; set; }
 
         [Display(Name = "销账日期")]
-        public DateTime PayDate { get; set; }
+        public DateTime? PayDate { get; set; }
 
         [Display(Name = "发票号")]
         public string ReceiptNo { get; set; }

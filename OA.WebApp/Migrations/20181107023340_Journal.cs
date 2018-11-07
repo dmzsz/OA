@@ -9,9 +9,13 @@ namespace OA.WebApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Journals",
+                name: "fm_Journal",
                 columns: table => new
                 {
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedAt = table.Column<DateTime>(nullable: true),
+                    ModifiedBy = table.Column<string>(nullable: true),
+                    ModifiedAt = table.Column<DateTime>(nullable: true),
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RecordDate = table.Column<DateTime>(nullable: false),
@@ -28,14 +32,14 @@ namespace OA.WebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Journals", x => x.ID);
+                    table.PrimaryKey("PK_fm_Journal", x => x.ID);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Journals");
+                name: "fm_Journal");
         }
     }
 }

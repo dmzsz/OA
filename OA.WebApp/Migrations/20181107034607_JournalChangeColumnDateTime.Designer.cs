@@ -10,8 +10,8 @@ using OA.WebApp.Data;
 namespace OA.WebApp.Migrations
 {
     [DbContext(typeof(OAContext))]
-    [Migration("20181106021051_journals")]
-    partial class journals
+    [Migration("20181107034607_JournalChangeColumnDateTime")]
+    partial class JournalChangeColumnDateTime
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,23 +113,25 @@ namespace OA.WebApp.Migrations
 
                     b.Property<string>("ClientID");
 
-                    b.Property<DateTime>("CreatedAt");
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CreatedBy");
 
                     b.Property<bool>("Deleted");
 
-                    b.Property<DateTime>("ModifiedAt");
+                    b.Property<DateTime?>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate();
 
                     b.Property<string>("ModifiedBy");
 
-                    b.Property<DateTime>("PayDate");
+                    b.Property<DateTime?>("PayDate");
 
                     b.Property<string>("Paytype");
 
                     b.Property<string>("ReceiptNo");
 
-                    b.Property<DateTime>("RecordDate");
+                    b.Property<DateTime?>("RecordDate");
 
                     b.Property<double>("SalesAmount");
 
@@ -137,7 +139,7 @@ namespace OA.WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("fm_journal");
+                    b.ToTable("fm_Journal");
                 });
 
             modelBuilder.Entity("OA.WebApp.Models.Privilege", b =>
