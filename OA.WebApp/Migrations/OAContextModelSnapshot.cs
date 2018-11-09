@@ -15,7 +15,7 @@ namespace OA.WebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065")
+                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -111,15 +111,25 @@ namespace OA.WebApp.Migrations
 
                     b.Property<string>("ClientID");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CreatedBy");
+
                     b.Property<bool>("Deleted");
 
-                    b.Property<DateTime>("PayDate");
+                    b.Property<DateTime?>("ModifiedAt")
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("ModifiedBy");
+
+                    b.Property<DateTime?>("PayDate");
 
                     b.Property<string>("Paytype");
 
                     b.Property<string>("ReceiptNo");
 
-                    b.Property<DateTime>("RecordDate");
+                    b.Property<DateTime?>("RecordDate");
 
                     b.Property<double>("SalesAmount");
 
@@ -127,7 +137,7 @@ namespace OA.WebApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Journals");
+                    b.ToTable("fm_Journal");
                 });
 
             modelBuilder.Entity("OA.WebApp.Models.Privilege", b =>

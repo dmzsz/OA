@@ -121,9 +121,11 @@ namespace OA.WebApp.Helpers
                 //字段名称
                 string fieldName = propertys[i].Name;
                 //字段类型
-                Type fieldType = propertys[i].PropertyType;
+                Type fieldType = propertys[i].GetType();
                 //字段的值
                 object fieldValue = propertys[i].GetValue(obj); // == null  ? "" : propertys[i].GetValue(journal).ToString();
+
+                Type dateTimeType = new DateTime().GetType();
                 if (fieldValue == null) fieldValue = DBNull.Value;
                 sqlParameter[i] = new SqlParameter("@" + fieldName, fieldValue);
             }

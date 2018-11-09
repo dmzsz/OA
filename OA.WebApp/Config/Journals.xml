@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlCommand>
+  <Entry>
+    <insert>INSERT INTO fm_Journal (RecordDate, Summary, ClientID, Amount, Borrowing, SalesAmount, Paytype, PayDate, ReceiptNo, AccountType, Deleted)VALUES (@RecordDate, @Summary, @ClientID, @Amount, @Borrowing, @SalesAmount,  @Paytype, @PayDate, @ReceiptNo, @AccountType, @Deleted)
+    </insert>
+  </Entry>
+</SqlCommand>
