@@ -8,7 +8,7 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    public class JournalController : Controller
+    public class JournalController : BaseController
     {
         private OAContext _context;
         private IMapper _mapper;

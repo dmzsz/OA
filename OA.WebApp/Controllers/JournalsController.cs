@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +12,7 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    public class JournalsController : Controller
+    public class JournalsController : BaseController
     {
         private readonly OAContext _context;
 

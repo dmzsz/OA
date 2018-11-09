@@ -263,3 +263,6 @@ __pycache__/
 
 OA.WebApp/appsettings.Production.json
 wwwroot/appsettings.Production.json
+
+OA.WebApp/appsettings.json
+OA.WebApp/appsettings.Production.json

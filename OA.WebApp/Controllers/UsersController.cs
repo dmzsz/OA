@@ -14,7 +14,7 @@ using System;
 namespace OA.WebApp.Controllers
 {
     [Authorize]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private IUserService _userService;
         private readonly ILogger<UsersController> _logger;

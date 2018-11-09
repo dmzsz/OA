@@ -10,7 +10,7 @@ using OA.WebApp.ViewModels;
 
 namespace OA.WebApp.Controllers
 {
-    public class T1DataController : Controller
+    public class T1DataController : BaseController
     {
         private readonly T1Context _context;
 

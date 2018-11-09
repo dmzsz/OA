@@ -121,11 +121,11 @@ $MENU_TOGGLE.on('click', function() {
 	// check active menu
 	$SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
-	$SIDEBAR_MENU.find('a').filter(function () {
-        return this.href.toLowerCase() == CURRENT_URL.toLowerCase() || (this.href + "/index").toLowerCase() == CURRENT_URL.toLowerCase();
-	}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
-		setContentHeight();
-	}).parent().addClass('active');
+	//$SIDEBAR_MENU.find('a').filter(function () {
+ //       return this.href.toLowerCase() == CURRENT_URL.toLowerCase() || (this.href + "/index").toLowerCase() == CURRENT_URL.toLowerCase();
+	//}).parent('li').addClass('current-page').parents('ul').slideDown(function() {
+	//	setContentHeight();
+	//}).parent().addClass('active');
 
 	// recompute content when resizing
 	$(window).smartresize(function(){  

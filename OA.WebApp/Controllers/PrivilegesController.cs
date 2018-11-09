@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OA.WebApp.Data;
-using OA.WebApp.Models; 
+using OA.WebApp.Models;
 using OA.WebApp.Services;
 using OA.WebApp.ViewModels;
 
 namespace OA.WebApp.Controllers
 {
-    public class PrivilegesController : Controller
+    public class PrivilegesController : BaseController
     {
         private readonly OAContext _context;
         private IMapper _mapper;

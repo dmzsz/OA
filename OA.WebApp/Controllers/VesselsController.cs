@@ -10,7 +10,7 @@ using OA.WebApp.Models;
 namespace OA.WebApp.Controllers
 {
     [Authorize]
-    public class VesselsController : Controller
+    public class VesselsController : BaseController
     {
         private readonly OAContext _context;
 

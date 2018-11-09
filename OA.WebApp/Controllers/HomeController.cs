@@ -6,7 +6,7 @@ using OA.WebApp.Models;
 namespace OA.WebApp.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         [HttpGet("")]
         [HttpGet("[controller]")]

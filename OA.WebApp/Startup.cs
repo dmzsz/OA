@@ -18,6 +18,7 @@ using OA.WebApp.Authorization;
 using OA.WebApp.Controllers;
 using OA.WebApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using OA.WebApp.Filter;
 
 namespace OA.WebApp
 {
@@ -66,6 +67,8 @@ namespace OA.WebApp
             
             services.AddDbContext<OAContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("OAContext")));
+
+            services.AddScoped<SidebarActionFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

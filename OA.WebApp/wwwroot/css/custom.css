@@ -222,7 +222,7 @@ html , body{
     margin-bottom: 5px
 }
 .nav-sm ul.nav.child_menu {
-    left: 100%;
+    left: calc(100% + 5px);
     position: absolute;
     top: 0;
     width: 210px;
@@ -719,6 +719,9 @@ a:focus {
 .sidebar-header:first-of-type {
     margin-top: 0
 }
+.nav ul, .nav li {
+    list-style: none;
+}
 .nav.side-menu>li {
     position: relative;
     display: block;
@@ -748,7 +751,7 @@ a:focus {
 .nav-md ul.nav.child_menu li:before {
     background: #425668;
     bottom: auto;
-    content: "";
+    /*content: "";*/
     height: 8px;
     left: 23px;
     margin-top: 15px;
@@ -761,7 +764,7 @@ a:focus {
 .nav-md ul.nav.child_menu li:after {
     border-left: 1px solid #425668;
     bottom: 0;
-    content: "";
+    /*content: "";*/
     left: 27px;
     position: absolute;
     top: 0

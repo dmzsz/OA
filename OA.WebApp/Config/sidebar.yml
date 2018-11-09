@@ -1,0 +1,119 @@
+﻿sidebar:
+    class: nav side-menu level-1-ul nav-sm
+    menus:
+      -
+        class: level-1-li
+        lable:
+          text: 测试
+          class: fa fa-edit
+        menuUl: 
+          class: nav child_menu level-2-ul
+          menuLis:
+            -
+              class: level-2-li
+              label:
+                text: 集港信息录入
+                url: /Vessels
+                class: level-2-label
+              menuUl:
+                class: level-3-ol
+                menuLis:
+                  -
+                    text: 主页
+                    url: /Vessels
+                    class:
+                  - 
+                    text: 创建
+                    url: /Vessels/Create
+                    class:
+                  - 
+                    text: 修改
+                    url: /Vessels/Edit
+                    class:
+                  -
+                    text: 删除
+                    url: /Vessels/Delete
+                    class:
+            -
+              class: level-2-li
+              label:
+                text: 加法财务
+                url: /Journals
+                class: level-2-label
+              menuUl:
+                class: level-3-ol
+                menuLis:
+                  -
+                    text: 主页
+                    url: /Journals
+                    class:
+                  - 
+                    text: 创建
+                    url: /Journals/Create
+                    class:
+                  - 
+                    text: 修改
+                    url: /Journals/Edit
+                    class:
+                  -
+                    text: 删除
+                    url: /Journals/Delete
+                    class:
+      -
+        class: level-1-li
+        lable:
+          text: 系统设置
+          class: fa fa-home
+        menuUl: 
+          class: nav child_menu level-2-ul
+          menuLis:
+            -
+              class: level-2-li
+              label:
+                text: 用户
+                url: /Users
+                class: level-2-label
+              menuUl:
+                class: level-3-ol
+                menuLis:
+                  -
+                    text: 主页
+                    url: /Users
+                    class:
+                  - 
+                    text: 创建
+                    url: /Users/Create
+                    class:
+                  - 
+                    text: 修改
+                    url: /Users/Edit
+                    class:
+                  -
+                    text: 删除
+                    url: /Users/Delete
+                    class:
+            -
+              class: level-2-li
+              label:
+                text: 权限
+                url: /Privileges
+                class: level-2-label
+              menuUl:
+                class: level-3-ol
+                menuLis:
+                  -
+                    text: 主页
+                    url: /Privileges
+                    class:
+                  - 
+                    text: 创建
+                    url: /Privileges/Create
+                    class:
+                  - 
+                    text: 修改
+                    url: /Privileges/Edit
+                    class:
+                  -
+                    text: 删除
+                    url: /Privileges/Delete
+                    class:

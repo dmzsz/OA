@@ -7,7 +7,7 @@ using OA.WebApp.Models;
 
 namespace OA.WebApp.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
         private readonly OAContext _context;
 
