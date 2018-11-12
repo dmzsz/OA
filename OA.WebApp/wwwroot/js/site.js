@@ -27,7 +27,7 @@ $(document).ready(function () {
     if (window.location.pathname === "/") {
         var user_menu = $(".side-menu a[href='/Users']")
             .closest("li").addClass("current-page")
-            .closest("ul").css({ "display": "block" })
+            //.closest("ul").css({ "display": "block" })
             .closest("li").addClass("active");
     }
 });
@@ -130,8 +130,7 @@ var t1_data = {
     }
 }
 var tools = {
-    getQueryVariable: function(variable)
-    {
+    getQueryVariable: function (variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i = 0; i < vars.length; i++) {

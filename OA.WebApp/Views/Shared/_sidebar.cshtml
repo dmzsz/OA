@@ -38,12 +38,12 @@
                             <ul class="@menu["menuUl"]["class"]">
                                 @foreach (var menu2 in menu["menuUl"]["menuLis"])
                                 {
-                                    <li class="@menu2[" class"]">
-                                        <a href="javascript:void(0) " class="@menu2["label"]["class"]">@menu2["label"]["text"]</a>
+                                    <li class="@menu2["class"]">
+                                        <a href="javascript:void(0)" class="@menu2["label"]["class"]">@menu2["label"]["text"]</a>
                                         <ol class="@menu2["menuUl"]["class"]">
                                             @foreach (var menu3 in menu2["menuUl"]["menuLis"])
                                             {
-                                                <li class="@menu3["class"]"><a href="@menu3["url"]">@menu3["text"]</a></li>
+                                                <li class="@menu3["class"]"><a href="@menu3["url"]"  target="_blank">@menu3["text"]</a></li>
                                             }
                                         </ol>
                                     </li>
